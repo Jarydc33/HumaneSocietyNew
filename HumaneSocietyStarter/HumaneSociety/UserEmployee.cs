@@ -96,8 +96,11 @@ namespace HumaneSociety
 
         private void CheckAnimalStatus()
         {
-            Console.Clear();            
-            var animals = Query.SearchForAnimalByMultipleTraits().ToList();
+            Console.Clear();
+
+            Dictionary<int,string> searchDictionary =  UserInterface.GetAnimalCriteria();
+
+            var animals = Query.SearchForAnimalByMultipleTraits(searchDictionary).ToList();
             if(animals.Count > 1)
             {
                 UserInterface.DisplayUserOptions("Several animals found");
@@ -215,8 +218,10 @@ namespace HumaneSociety
         }       
 
         private void RemoveAnimal()
-        {            
-            var animals = Query.SearchForAnimalByMultipleTraits().ToList();
+        {
+
+            Dictionary<int, string> searchDictionary = UserInterface.GetAnimalCriteria();
+            var animals = Query.SearchForAnimalByMultipleTraits(searchDictionary).ToList();
             if (animals.Count > 1)
             {
                 UserInterface.DisplayUserOptions("Several animals found please refine your search.");
@@ -249,6 +254,8 @@ namespace HumaneSociety
             animal.KidFriendly = UserInterface.GetBitData("the animal", "child friendly");
             animal.PetFriendly = UserInterface.GetBitData("the animal", "pet friendly");
             animal.Weight = UserInterface.GetIntegerData("the animal", "the weight of the");
+            animal.Gender = UserInterface.GetStringData("gender", "the animal's");
+            animal.AdoptionStatus = UserInterface.GetStringData("adoption status", "the animal's");
             animal.DietPlanId = Query.GetDietPlanId(type);
             Query.AddAnimal(animal);
         }
