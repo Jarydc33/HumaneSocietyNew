@@ -230,26 +230,6 @@ namespace HumaneSociety
             throw new NotImplementedException();
         }
 
-<<<<<<< HEAD
-
-        internal static Category GetCategoryId(int iD)
-        {
-            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
-            Console.WriteLine("Please search for a category");
-            Console.ReadLine();
-            var CategoryId = db.Categories.Where(c => c.CategoryId == iD).Single();
-        
-            return CategoryId;
-=======
-        internal static int? GetCategoryId(string type) //FIX
-        {
-            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
-
-            int category = db.Categories.Select(a => a.CategoryId).FirstOrDefault();
-            return category;
->>>>>>> ef7c2ff497a631a236e502e809fe178a8c2185d8
-        }
-
 
         internal static DietPlan GetDietPlanId(int iD)
         {
