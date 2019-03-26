@@ -173,7 +173,10 @@ namespace HumaneSociety
             }
             if (UserInterface.GetBitData("Would you like to Update shots?"))
             {
-                Query.UpdateShot("booster", animal);
+                // FIX 
+                Console.WriteLine("Which shot does your animal need?");
+                string userInput = Console.ReadLine();
+                Query.UpdateShot(userInput, animal);
             }
         }
 

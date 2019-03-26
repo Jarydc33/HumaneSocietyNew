@@ -259,8 +259,12 @@ namespace HumaneSociety
             return employeeFromDb;
         }
 
-        internal static List<AnimalShot> GetShots(Animal animal) //FIX
+        internal static List<AnimalShot> GetShots(Animal animal) 
         {
+            
+           
+            
+
             throw new NotImplementedException();
         }
 
@@ -275,6 +279,32 @@ namespace HumaneSociety
 
         internal static void UpdateShot(string v, Animal animal) //FIX
         {
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            AnimalShot animalShot = new AnimalShot();
+            animalShot.AnimalId = animal.AnimalId;
+            int id = int.Parse(v);
+            animalShot.ShotId = id;
+            animalShot.DateReceived = DateTime.Now;
+            
+            //var newAnimalShot = db.Animals.Where(x => x. = animal.AnimalId);
+            db.AnimalShots.InsertOnSubmit(animalShot);
+            try
+            {
+                db.SubmitChanges();
+
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e);
+            }
+
+            //var UnVaccedAnimal = db.Animals.GetAnimalByID();
+
+
+            //AnimalShot newAnimalShot = new AnimalShot();            
+            //db.AnimalShots.In
+
+
             throw new NotImplementedException();
         }
 
