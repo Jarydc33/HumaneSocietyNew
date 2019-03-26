@@ -219,17 +219,21 @@ namespace HumaneSociety
             throw new NotImplementedException();
         }
 
-        internal static int? GetCategoryId(string type) //FIX
+        internal static int? GetCategoryId(string type) 
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
 
-            int category = db.Categories.Select(a => a.CategoryId).FirstOrDefault();
+            Category category = db.Categories.Where(a => a.Name == type).FirstOrDefault();
+            int id = category.Select(category => c);
             return category;
         }
 
-        internal static int? GetDietPlanId() //FIX
+        internal static int? GetDietPlanId(string type) //FIX
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+
+            int foodPlan = db.DietPlans.Select(f => f.)
+            return foodPlan;
         }
 
         internal static void AddAnimal(Animal animal) //FIX
