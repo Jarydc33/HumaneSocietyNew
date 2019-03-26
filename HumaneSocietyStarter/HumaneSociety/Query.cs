@@ -250,7 +250,18 @@ namespace HumaneSociety
 
         internal static void AddAnimal(Animal animal) //FIX
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+
+            db.Animals.InsertOnSubmit(animal);
+
+            try
+            {
+                db.SubmitChanges();
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e);
+            }
         }
     }
 }
