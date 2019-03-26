@@ -306,7 +306,38 @@ namespace HumaneSociety
 
             int category = db.Categories.Where(a => a.Name == type).Select(a=>a.CategoryId).FirstOrDefault();
 
+            if(category == 0)
+            {
+                CreateCategoryId(type);
+            }
+
             return category;
+        }
+
+        internal static void CreateCategoryId(string type)
+        {
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+
+            UserInterface.DisplayUserOptions("That animal does not exist in the database, would you like to add it?");
+            string input = UserInterface.GetUserInput();
+
+            if (input == "yes" || input == "y")
+            {
+                Category newcategory = new Category();
+                newcategory.Name = type;
+                db.Categories.InsertOnSubmit(newcategory);
+
+                try
+                {
+                    db.SubmitChanges();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                }
+            }
+
+            GetCategoryId(type);
         }
 
         internal static int? GetDietPlanId(string type)
@@ -318,7 +349,7 @@ namespace HumaneSociety
             return dietPlan;
         }
 
-        internal static void AddAnimal(Animal animal) //FIX
+        internal static void AddAnimal(Animal animal) 
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
 
