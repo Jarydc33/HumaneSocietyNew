@@ -16,11 +16,11 @@ INSERT INTO Shots
 
 ADDING DIETS
 INSERT INTO DietPlans
-	VALUES('dog diet','dry food','2')
-	VALUES('kitten diet','milk','2')
-    VALUES('snake diet','mouse','2')
-	VALUES('rabbit diet','lettuce','3')
-	VALUES('bird diet','seed','1')
+	VALUES('dog','dry food','2')
+	VALUES('cat','milk','2')
+    VALUES('snake','mouse','2')
+	VALUES('rabbit','lettuce','3')
+	VALUES('bird','seed','1')
 
 ADDING ANIMALS
 INSERT INTO Animals

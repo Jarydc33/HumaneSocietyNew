@@ -234,17 +234,18 @@ namespace HumaneSociety
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
 
-            Category category = db.Categories.Where(a => a.Name == type).FirstOrDefault();
-            int id = category.Select(category => c);
+            int category = db.Categories.Where(a => a.Name == type).Select(a=>a.CategoryId).FirstOrDefault();
+
             return category;
         }
 
-        internal static int? GetDietPlanId(string type) //FIX
+        internal static int? GetDietPlanId(string type)
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
 
-            int foodPlan = db.DietPlans.Select(f => f.)
-            return foodPlan;
+            int dietPlan = db.DietPlans.Where(a => a.Name == type ).Select(a => a.DietPlanId).FirstOrDefault();
+
+            return dietPlan;
         }
 
         internal static void AddAnimal(Animal animal) //FIX

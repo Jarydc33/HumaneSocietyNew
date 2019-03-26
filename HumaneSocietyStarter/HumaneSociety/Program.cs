@@ -13,9 +13,7 @@ namespace HumaneSociety
             //UserEmployee ue = new UserEmployee();
             //ue.UpdateAnimal();
             //ue.UpdateAnimal();
-             //PointOfEntry.Run();
-            Query.GetCategoryId(4);
-            Console.ReadLine();
+             PointOfEntry.Run();
         }
     }
 }
