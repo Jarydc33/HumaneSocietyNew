@@ -1,0 +1,45 @@
+﻿ADDING CATEGORIES:
+INSERT INTO Categories
+    VALUES('dog')
+	VALUES('cat')
+	VALUES('bird')
+	VALUES('snake')
+	VALUES('rabbit')
+
+ADDING SHOTS:
+INSERT INTO Shots
+    VALUES('rabies')
+	VALUES('E.Coli')
+	VALUES('brucellosis')
+	VALUES('rotavirus')
+	VALUES('parvovirus')
+
+ADDING DIETS
+INSERT INTO DietPlans
+	VALUES('weight gain','dry food','2')
+	VALUES('kitten diet','milk','2')
+    VALUES('snake diet','mouse','2')
+	VALUES('rabbit diet','lettuce','3')
+	VALUES('bird diet','seed','1')
+
+ADDING ANIMALS
+INSERT INTO Animals
+    VALUES  ('Sparky','1','35','4','1','Friendly','True','True','Male','Not Adopted','1')
+	VALUES  ('George','2','5','7','5','Ambivolent','False','False','Male','Not Adopted','2')
+	VALUES  ('Genghis','4','2','15','6','Lethargic','True','False','Female','Pending','1')
+	VALUES  ('JigglyPuff','5','4','3','7','Energetic','False','True','Female','Not adopted','2')
+	VALUES  ('WakaFlocka','3','1','25','8','Happy','True','True','Male','Not adopted','1')
+
+ADDING ROOMS
+INSERT INTO Rooms
+    VALUES  ('25','3')
+	VALUES  ('26','4')
+	VALUES  ('27','5')
+	VALUES  ('28','6')
+	VALUES  ('29','7')
+	VALUES  ('30', null)
+	VALUES  ('31', null)
+	VALUES  ('32', null)
+	VALUES  ('33', null)
+	VALUES  ('34', null)
+
