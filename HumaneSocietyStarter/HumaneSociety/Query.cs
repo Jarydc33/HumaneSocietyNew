@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -151,9 +152,78 @@ namespace HumaneSociety
             throw new NotImplementedException();
         }
 
-        internal static List<Animal> SearchForAnimalByMultipleTraits() //FIX
+        internal static List<Animal> SearchForAnimalByMultipleTraits(Dictionary<int,string> searchCriteria) //FIX
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            List<Animal> animals = new List<Animal>();
+            animals = db.Animals.Where(a => a.AnimalId != 0).ToList();
+
+            foreach(KeyValuePair<int,string> criteria in searchCriteria)
+            {
+                if (animals.Count() == 0)
+                {
+                    return animals;
+                }
+                else
+                {
+                    switch (criteria.Key)
+                    {
+                        case 1:
+                            int newId = int.Parse(criteria.Value);
+                            animals = animals.Where(a=> a.CategoryId == newId).ToList();
+                            break;
+
+                        case 2:
+                            animals = animals.Where(a => a.Name == criteria.Value).ToList();
+                            break;
+
+                        case 3:
+                            int age = int.Parse(criteria.Value);
+                            animals = animals.Where(a => a.Age == age).ToList();
+                            break;
+
+                        case 4:
+                            animals = animals.Where(a => a.Demeanor == criteria.Value).ToList();
+                            break;
+
+                        case 5:
+                            
+                            if(criteria.Value.ToLower() == "yes")
+                            {
+                                animals = animals.Where(a => a.KidFriendly == true).ToList();
+                            }
+                            else
+                            {
+                                animals = animals.Where(a => a.KidFriendly == false).ToList();
+                            }
+                            break;
+
+                        case 6:
+                            if (criteria.Value.ToLower() == "yes")
+                            {
+                                animals = animals.Where(a => a.PetFriendly == true).ToList();
+                            }
+                            else
+                            {
+                                animals = animals.Where(a => a.PetFriendly == false).ToList();
+                            }
+                            break;
+
+                        case 7:
+                            int weight = int.Parse(criteria.Value);
+                            animals = animals.Where(a => a.Weight == weight).ToList();
+                            break;
+
+                        case 8:
+                            int id = int.Parse(criteria.Value);
+                            animals = animals.Where(a => a.AnimalId == id).ToList();
+                            break;
+
+                    }
+                }
+            }
+
+            return animals;
         }
 
         internal static List<Adoption> GetPendingAdoptions()
@@ -172,7 +242,7 @@ namespace HumaneSociety
 
             if (employeeFromDb == null)
             {
-                throw new NullReferenceException("Sorry, we dont recognize that");   //FIX          
+                throw new NullReferenceException("Sorry, we dont recognize that");           
             }
             else
             {
