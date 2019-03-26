@@ -219,9 +219,12 @@ namespace HumaneSociety
             throw new NotImplementedException();
         }
 
-        internal static int? GetCategoryId() //FIX
+        internal static int? GetCategoryId(string type) //FIX
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+
+            int category = db.Categories.Select(a => a.CategoryId).FirstOrDefault();
+            return category;
         }
 
         internal static int? GetDietPlanId() //FIX
