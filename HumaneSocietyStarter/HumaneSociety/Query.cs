@@ -122,6 +122,10 @@ namespace HumaneSociety
 
         internal static Room GetRoom(int animalId) //FIX
         {
+            //HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            //var RoomNumber = db.Rooms.Where(a => a.AnimalId == animalId).Select(RoomNumber).Single();
+
+            //return animalsById;
             throw new NotImplementedException();
         }
 
@@ -130,10 +134,17 @@ namespace HumaneSociety
             throw new NotImplementedException();
         }
 
-        internal static Animal GetAnimalByID(int iD) //FIX
+        internal static Animal GetAnimalByID(int iD)
         {
-            throw new NotImplementedException();
+            //db is the database
+            //Animals is the animals table
+            //Where is filtering by a boolean condition
+            //Single is grabbing that single instance
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var animalsById = db.Animals.Where(a => a.AnimalId == iD).Single();
+            return animalsById;
         }
+
 
         internal static void UpdateAdoption(bool v, Adoption adoption) //FIX
         {
