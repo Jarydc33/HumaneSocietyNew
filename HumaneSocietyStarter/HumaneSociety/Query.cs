@@ -122,6 +122,10 @@ namespace HumaneSociety
 
         internal static Room GetRoom(int animalId) //FIX
         {
+            //HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            //var RoomNumber = db.Rooms.Where(a => a.AnimalId == animalId).Select(RoomNumber).Single();
+
+            //return animalsById;
             throw new NotImplementedException();
         }
 
@@ -230,15 +234,21 @@ namespace HumaneSociety
         internal static Category GetCategoryId(int iD)
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            Console.WriteLine("Please search for a category");
+            Console.ReadLine();
             var CategoryId = db.Categories.Where(c => c.CategoryId == iD).Single();
+        
             return CategoryId;
         }
 
 
-        internal static int? GetDietPlanId() //FIX
+        internal static DietPlan GetDietPlanId(int iD)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var DietPlanId = db.DietPlans.Where(d => d.DietPlanId == iD).Single();
+            return DietPlanId;
         }
+
 
         internal static void AddAnimal(Animal animal) //FIX
         {
