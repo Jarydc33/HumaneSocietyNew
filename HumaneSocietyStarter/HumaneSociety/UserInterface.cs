@@ -212,7 +212,10 @@ namespace HumaneSociety
                     searchParameters.Add(7, UserInterface.GetIntegerData("weight", "the animal's").ToString());
                     break;
                 case "8":
-                    searchParameters.Add(8, UserInterface.GetIntegerData("ID", "the animal's").ToString());
+                    searchParameters.Add(8, UserInterface.GetIntegerData("room", "the animal's").ToString());
+                    break;
+                case "9":
+                    searchParameters.Add(9, UserInterface.GetIntegerData("DietPlanId", "the animal's").ToString());
                     break;
                 default:
                     UserInterface.DisplayUserOptions("Input not recognized please try agian");
