@@ -123,11 +123,10 @@ namespace HumaneSociety
 
         internal static Room GetRoom(int animalId) //FIX
         {
-            //HumaneSocietyDataContext db = new HumaneSocietyDataContext();
-            //var RoomNumber = db.Rooms.Where(a => a.AnimalId == animalId).Select(RoomNumber).Single();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var roomNumber = db.Rooms.Where(a => a.AnimalId == animalId).FirstOrDefault();
 
-            //return animalsById;
-            throw new NotImplementedException();
+            return roomNumber;
         }
 
         internal static void Adopt(object animal, Client client) //FIX
