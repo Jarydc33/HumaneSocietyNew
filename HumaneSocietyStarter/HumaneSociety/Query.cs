@@ -261,9 +261,13 @@ namespace HumaneSociety
 
         internal static List<AnimalShot> GetShots(Animal animal) 
         {
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
             
-           
-            
+
+
+            // AnimalShot animalShot = db.AnimalShots.Where(s => s.shotId == ShotId && s.)
+
+
 
             throw new NotImplementedException();
         }
