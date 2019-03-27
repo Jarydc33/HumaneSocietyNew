@@ -9,9 +9,7 @@ namespace HumaneSociety
     class UserEmployee : User
     {
         Employee employee;
-        private delegate void crudOperationsEmployees();
-
-
+                
         public override void LogIn()
         {
             if (CheckIfNewUser())
@@ -286,7 +284,8 @@ namespace HumaneSociety
             }
             
         }
-        private void CreateNewEmployee() //C from CRUD
+        private void CreateNewEmployee()
+
         {
             Console.Clear();
             string email = UserInterface.GetStringData("email", "your");
@@ -312,20 +311,20 @@ namespace HumaneSociety
             }
         }
 
-        private void UpdateEmployeeInfo() //U from CRUD
+        private void UpdateEmployeeInfo()
         {
             GetUserName();
             GetPassword();
             Query.AddUsernameAndPassword(employee);
         }
 
-        private void GetPassword() //R from CRUD
+        private void GetPassword()
         {
             UserInterface.DisplayUserOptions("Please enter your password: (CaSe SeNsItIvE)");
             employee.Password = UserInterface.GetUserInput();
         }
 
-        private void GetUserName() //R from CRUD
+        private void GetUserName()
         {
             Console.Clear();
             string username = UserInterface.GetStringData("username", "your");
@@ -339,11 +338,6 @@ namespace HumaneSociety
                 employee.UserName = username;
                 UserInterface.DisplayUserOptions("Username successful");
             }
-        }
-
-        private void DeleteEmployee() //D from CRUD
-        {
-
         }
     }
 }
