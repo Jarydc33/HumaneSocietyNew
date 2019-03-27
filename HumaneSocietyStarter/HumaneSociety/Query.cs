@@ -397,5 +397,24 @@ namespace HumaneSociety
                 Console.WriteLine(e);
             }
         }
+
+        internal static void PlaceAnimalIntoRoom(int animalId)
+        {
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            Room room = new Room();
+
+            room = db.Rooms.Where(r => r.AnimalId == null).FirstOrDefault();
+            room.AnimalId = animalId;
+
+            try
+            {
+                db.SubmitChanges();
+                UserInterface.DisplayUserOptions("This animal was put in room " + room.RoomNumber);
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e);
+            }
+        }
     }
 }
