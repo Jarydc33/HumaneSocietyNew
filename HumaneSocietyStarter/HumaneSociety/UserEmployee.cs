@@ -259,8 +259,8 @@ namespace HumaneSociety
             animal.Weight = UserInterface.GetIntegerData("the animal", "the weight of the");
             animal.Gender = UserInterface.GetStringData("gender", "the animal's");
             animal.AdoptionStatus = UserInterface.GetStringData("adoption status", "the animal's");
-            animal.DietPlanId = Query.GetDietPlanId(type);
             Query.AddAnimal(animal);
+            Query.PlaceAnimalIntoRoom(animal.AnimalId);
         }
         protected override void LogInPreExistingUser()
         {
