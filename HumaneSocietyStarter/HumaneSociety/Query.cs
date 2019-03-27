@@ -121,7 +121,7 @@ namespace HumaneSociety
             throw new NotImplementedException();
         }
 
-        internal static Room GetRoom(int animalId) //FIX
+        internal static Room GetRoom(int animalId)
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
             var roomNumber = db.Rooms.Where(a => a.AnimalId == animalId).FirstOrDefault();
@@ -129,17 +129,32 @@ namespace HumaneSociety
             return roomNumber;
         }
 
-        internal static void Adopt(object animal, Client client) //FIX
+        internal static void Adopt(Animal animal, Client client) 
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+
+            Adoption adoption = new Adoption();
+            animal = db.Animals.Where(a => a.AnimalId == animal.AnimalId).FirstOrDefault();
+            adoption.ClientId = client.ClientId;
+            adoption.AnimalId = animal.AnimalId;
+            adoption.ApprovalStatus = "Pending";
+            adoption.AdoptionFee = 75;
+            adoption.PaymentCollected = true;
+            animal.AdoptionStatus = "Pending";
+            
+
+            try
+            {
+                db.SubmitChanges(); 
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e);
+            }
         }
 
         internal static Animal GetAnimalByID(int iD)
         {
-            //db is the database
-            //Animals is the animals table
-            //Where is filtering by a boolean condition
-            //Single is grabbing that single instance
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
             var animalsById = db.Animals.Where(a => a.AnimalId == iD).Single();
             return animalsById;
@@ -151,7 +166,7 @@ namespace HumaneSociety
             throw new NotImplementedException();
         }
 
-        internal static List<Animal> SearchForAnimalByMultipleTraits(Dictionary<int,string> searchCriteria) //FIX
+        internal static List<Animal> SearchForAnimalByMultipleTraits(Dictionary<int,string> searchCriteria)
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
             List<Animal> animals = new List<Animal>();
@@ -229,7 +244,7 @@ namespace HumaneSociety
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
 
-            var adoptionFromDb = db.Adoptions.Where(a => a.ApprovalStatus == "pending").ToList();
+            var adoptionFromDb = db.Adoptions.Where(a => a.ApprovalStatus == "Pending").ToList();
             return adoptionFromDb;
         }
 
@@ -323,7 +338,7 @@ namespace HumaneSociety
             db.SubmitChanges();
         }
 
-        internal static void EnterAnimalUpdate(Animal animals, Dictionary<int, string> updates) //FIX
+        internal static void EnterAnimalUpdate(Animal animals, Dictionary<int, string> updates)
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
             Room room = new Room();
