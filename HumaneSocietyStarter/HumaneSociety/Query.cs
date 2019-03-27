@@ -332,10 +332,6 @@ namespace HumaneSociety
             var shotsFromDb = db.AnimalShots.ToList();
             return shotsFromDb;
 
-
-
-
-
             throw new NotImplementedException();
         }
 
@@ -448,6 +444,10 @@ namespace HumaneSociety
                             room.RoomNumber = int.Parse(criteria.Value);
                         }
                         
+                        break;
+
+                    case 9:
+                        animals.DietPlanId = int.Parse(criteria.Value);
                         break;
                 }
                
