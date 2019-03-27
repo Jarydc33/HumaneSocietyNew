@@ -117,7 +117,7 @@ namespace HumaneSociety
             db.SubmitChanges();
         }
 
-        internal static void RunEmployeeQueries(Employee employee, string v) //FIX
+        internal static void RunEmployeeQueries(Employee employee, string v)
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
             switch (v)
@@ -130,15 +130,21 @@ namespace HumaneSociety
                     break;
 
                 case "read":
-
+                    employee = db.Employees.Where(e => e.EmployeeId == employee.EmployeeId).FirstOrDefault();
+                    UserInterface.DisplayUserOptions("First Name: " + employee.FirstName + "/n Last Name: " + employee.LastName + "UserName: " + employee.UserName + "/n Password: " + employee.Password + "/n Employee Nmber: " + employee.EmployeeNumber + "/n Email: " + employee.Email);
                     break;
 
                 case "update":
+                    Employee newEmployee = db.Employees.Where(e => e.EmployeeId == employee.EmployeeId).FirstOrDefault();
+                    newEmployee.FirstName = employee.FirstName;
+                    newEmployee.LastName = employee.LastName;
+                    newEmployee.EmployeeNumber = employee.EmployeeNumber;
+                    newEmployee.Email = employee.Email;
 
                     break;
 
                 case "create":
-
+                    db.Employees.InsertOnSubmit(employee);
                     break;
             }
 
@@ -196,17 +202,19 @@ namespace HumaneSociety
         internal static void UpdateAdoption(bool v, Adoption adoption)
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            Animal animal = new Animal();
             adoption = db.Adoptions.Where(a => a.AnimalId == adoption.AnimalId).FirstOrDefault();
+            animal = db.Animals.Where(a => a.AnimalId == adoption.AnimalId).FirstOrDefault();
             if (v)
             {
                 
                 adoption.ApprovalStatus = "Adopted";
-                //ADD
+                animal.AdoptionStatus = "Adopted";
             }
             else
             {
                 db.Adoptions.DeleteOnSubmit(adoption);
-                //ADD
+                animal.AdoptionStatus = "Not Adopted";
             }
           
         }
@@ -475,9 +483,19 @@ namespace HumaneSociety
             }
         }
 
-        internal static void RemoveAnimal(Animal animal) //FIX
+        internal static void RemoveAnimal(Animal animal) 
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            animal = db.Animals.Where(a => a.AnimalId == animal.AnimalId).FirstOrDefault();
+            db.Animals.DeleteOnSubmit(animal);
+            try
+            {
+                db.SubmitChanges();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
         }
 
         internal static int? GetCategoryId(string type) 
