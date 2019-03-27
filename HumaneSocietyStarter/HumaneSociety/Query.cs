@@ -120,7 +120,7 @@ namespace HumaneSociety
         {
             throw new NotImplementedException();
         }
-
+       
         internal static Room GetRoom(int animalId)
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
