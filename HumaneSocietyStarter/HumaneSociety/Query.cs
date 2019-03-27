@@ -9,6 +9,7 @@ namespace HumaneSociety
 {
     public static class Query
     {
+        
 
         internal static List<USState> GetStates()
         {
@@ -116,9 +117,46 @@ namespace HumaneSociety
             db.SubmitChanges();
         }
 
-        internal static void RunEmployeeQueries(Employee employee, string v) //FIX
+        internal static void RunEmployeeQueries(Employee employee, string v)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            switch (v)
+            {
+                case "delete":
+
+                    employee = db.Employees.Where(e => e.EmployeeId == employee.EmployeeId).FirstOrDefault();
+                    db.Employees.DeleteOnSubmit(employee);
+
+                    break;
+
+                case "read":
+                    employee = db.Employees.Where(e => e.EmployeeId == employee.EmployeeId).FirstOrDefault();
+                    UserInterface.DisplayUserOptions("First Name: " + employee.FirstName + "/n Last Name: " + employee.LastName + "UserName: " + employee.UserName + "/n Password: " + employee.Password + "/n Employee Nmber: " + employee.EmployeeNumber + "/n Email: " + employee.Email);
+                    break;
+
+                case "update":
+                    Employee newEmployee = db.Employees.Where(e => e.EmployeeId == employee.EmployeeId).FirstOrDefault();
+                    newEmployee.FirstName = employee.FirstName;
+                    newEmployee.LastName = employee.LastName;
+                    newEmployee.EmployeeNumber = employee.EmployeeNumber;
+                    newEmployee.Email = employee.Email;
+
+                    break;
+
+                case "create":
+                    db.Employees.InsertOnSubmit(employee);
+                    break;
+            }
+
+            try
+            {
+                db.SubmitChanges();
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e);
+            }
+           
         }
        
         internal static Room GetRoom(int animalId)
@@ -169,6 +207,7 @@ namespace HumaneSociety
             animal = db.Animals.Where(a => a.AnimalId == adoption.AnimalId).FirstOrDefault();
             if (v)
             {
+                
                 adoption.ApprovalStatus = "Adopted";
                 animal.AdoptionStatus = "Adopted";
             }
@@ -309,7 +348,7 @@ namespace HumaneSociety
             return employeeWithUserName == null;
         }
 
-        internal static void UpdateShot(string v, Animal animal) //FIX
+        internal static void UpdateShot(string v, Animal animal)
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
             AnimalShot animalShot = new AnimalShot();
@@ -449,13 +488,13 @@ namespace HumaneSociety
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
             animal = db.Animals.Where(a => a.AnimalId == animal.AnimalId).FirstOrDefault();
             db.Animals.DeleteOnSubmit(animal);
-        try
-        {
-            db.SubmitChanges();
-            }
-        catch (Exception e)
+            try
             {
-            Console.WriteLine(e);
+                db.SubmitChanges();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
             }
         }
 
