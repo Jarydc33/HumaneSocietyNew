@@ -121,7 +121,7 @@ namespace HumaneSociety
             throw new NotImplementedException();
         }
 
-        internal static Room GetRoom(int animalId) //FIX
+        internal static Room GetRoom(int animalId)
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
             var roomNumber = db.Rooms.Where(a => a.AnimalId == animalId).FirstOrDefault();
@@ -129,17 +129,32 @@ namespace HumaneSociety
             return roomNumber;
         }
 
-        internal static void Adopt(object animal, Client client) //FIX
+        internal static void Adopt(Animal animal, Client client) 
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+
+            Adoption adoption = new Adoption();
+            animal = db.Animals.Where(a => a.AnimalId == animal.AnimalId).FirstOrDefault();
+            adoption.ClientId = client.ClientId;
+            adoption.AnimalId = animal.AnimalId;
+            adoption.ApprovalStatus = "Pending";
+            adoption.AdoptionFee = 75;
+            adoption.PaymentCollected = true;
+            animal.AdoptionStatus = "Pending";
+            
+
+            try
+            {
+                db.SubmitChanges(); 
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e);
+            }
         }
 
         internal static Animal GetAnimalByID(int iD)
         {
-            //db is the database
-            //Animals is the animals table
-            //Where is filtering by a boolean condition
-            //Single is grabbing that single instance
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
             var animalsById = db.Animals.Where(a => a.AnimalId == iD).Single();
             return animalsById;
@@ -176,7 +191,7 @@ namespace HumaneSociety
         //    animal.AdoptionStatus = "Adopted";
         //}
 
-        internal static List<Animal> SearchForAnimalByMultipleTraits(Dictionary<int,string> searchCriteria) //FIX
+        internal static List<Animal> SearchForAnimalByMultipleTraits(Dictionary<int,string> searchCriteria)
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
             List<Animal> animals = new List<Animal>();
@@ -338,10 +353,89 @@ namespace HumaneSociety
             db.SubmitChanges();
         }
 
-        internal static void EnterAnimalUpdate(Animal animal, Dictionary<int, string> updates) //FIX
+        internal static void EnterAnimalUpdate(Animal animals, Dictionary<int, string> updates)
         {
 
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            Room room = new Room();
+            animals = db.Animals.Where(a => a.AnimalId == animals.AnimalId).FirstOrDefault();
+
+            foreach (KeyValuePair<int, string> criteria in updates)
+            {
+                switch (criteria.Key)
+                {
+                    case 1:                        
+                        animals.CategoryId = int.Parse(criteria.Value);
+                        break;
+
+                    case 2:
+                        animals.Name = criteria.Value;
+                            break;
+
+                    case 3:
+                        animals.Age = int.Parse(criteria.Value);
+                        break;
+
+                    case 4:
+                        animals.Demeanor = criteria.Value;
+                        break;
+
+                    case 5:
+
+                        if (criteria.Value.ToLower() == "yes")
+                        {
+                            animals.KidFriendly = true;
+                        }
+                        else
+                        {
+                            animals.KidFriendly = false;
+                        }
+                        break;
+
+                    case 6:
+
+                        if (criteria.Value.ToLower() == "yes")
+                        {
+                            animals.PetFriendly = true;
+                        }
+                        else
+                        {
+                            animals.PetFriendly = false;
+                        }
+                        break;
+
+                    case 7:
+
+                        animals.Weight = int.Parse(criteria.Value);
+                        break;
+
+                    case 8:
+                        room = db.Rooms.Where(r => r.AnimalId == animals.AnimalId).FirstOrDefault();
+                        if(room.RoomNumber != null)
+                        {
+                            UserInterface.DisplayUserOptions("That room is already in use.");
+                        }
+                        else
+                        {
+                            room.RoomNumber = int.Parse(criteria.Value);
+                        }
+                        
+                        break;
+
+                }
+               
+            }
+
+            try
+            {
+                db.SubmitChanges();
+                UserInterface.DisplayUserOptions("Update complete.");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+>>>>>>> 496dcb871b44c531c433cd5ff87a5e35bea5a23b
         }
 
         internal static void RemoveAnimal(Animal animal) //FIX
