@@ -26,7 +26,7 @@ namespace HumaneSociety
         }
         protected override void RunUserMenus()
         {
-            List<string> options = new List<string>() { "What would you like to do? (select number of choice)", "1. Add animal", "2. Remove Anmial", "3. Check Animal Status",  "4. Approve Adoption" };
+            List<string> options = new List<string>() { "What would you like to do? (select number of choice)", "1. Add animal", "2. Remove Anmial", "3. Check Animal Status",  "4. Approve Adoption", "5. Create New / Edit Existing Diet Plan" };
             UserInterface.DisplayUserOptions(options);
             string input = UserInterface.GetUserInput();
             RunUserInput(input);
@@ -49,6 +49,10 @@ namespace HumaneSociety
                     break;
                 case "4":
                     CheckAdoptions();
+                    RunUserMenus();
+                    break;
+                case "5":
+                    AddDiet();
                     RunUserMenus();
                     break;
                 default:
@@ -173,7 +177,6 @@ namespace HumaneSociety
             }
             if (UserInterface.GetBitData("Would you like to Update shots?"))
             {
-                // FIX 
                 Console.WriteLine("Which shot does your animal need?");
                 string userInput = Console.ReadLine();
                 Query.UpdateShot(userInput, animal);
@@ -264,6 +267,30 @@ namespace HumaneSociety
             Query.AddAnimal(animal);
             Query.PlaceAnimalIntoRoom(animal.AnimalId);
         }
+
+        private void AddDiet()
+        {
+            UserInterface.DisplayUserOptions("Would you like to update a diet plan or create a new one? Type update or create.");
+            string decisions = UserInterface.GetUserInput();
+            if(decisions.ToLower() == "update")
+            {
+                UserInterface.DisplayUserOptions("What is the Diet Id you would like to edit?");
+                int dietId = UserInterface.GetIntegerData();
+                Query.UpdateDiet(dietId);
+            }
+            if(decisions.ToLower() == "create")
+            {
+                DietPlan Diet = new DietPlan();
+                Diet.Name = UserInterface.GetStringData("name?", "the diet's");
+                Diet.FoodType = UserInterface.GetStringData("food type?", "the animal's");
+                Console.WriteLine("How much food does the animal need per serving?");
+                int foodinCups = UserInterface.GetIntegerData();
+                Diet.FoodAmountInCups = foodinCups;
+                Query.AddDiet(Diet);
+            }
+            
+        }               
+
         protected override void LogInPreExistingUser()
         {
             List<string> options = new List<string>() { "Please log in", "Enter your username (CaSe SeNsItIvE)" };

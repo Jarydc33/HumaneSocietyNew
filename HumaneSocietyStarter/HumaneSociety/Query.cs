@@ -297,7 +297,7 @@ namespace HumaneSociety
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
 
-            var adoptionFromDb = db.Adoptions.Where(a => a.ApprovalStatus == "Pending").ToList();
+            var adoptionFromDb = db.Adoptions.Where(a => a.ApprovalStatus.ToLower() == "pending").ToList();
             return adoptionFromDb;
         }
 
@@ -502,7 +502,7 @@ namespace HumaneSociety
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
 
-            int category = db.Categories.Where(a => a.Name == type).Select(a=>a.CategoryId).FirstOrDefault();
+            int category = db.Categories.Where(a => a.Name.ToLower() == type.ToLower()).Select(a=>a.CategoryId).FirstOrDefault();
 
             if(category == 0)
             {
@@ -544,6 +544,11 @@ namespace HumaneSociety
 
             int dietPlan = db.DietPlans.Where(a => a.Name == type ).Select(a => a.DietPlanId).FirstOrDefault();
 
+            if(dietPlan == 0)
+            {
+                return null;
+            }
+
             return dietPlan;
         }
 
@@ -563,16 +568,11 @@ namespace HumaneSociety
             }
         }
 
-        internal static void AddDiet()
+        internal static void AddDiet(DietPlan diet)
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
-            DietPlan Diet = new DietPlan();
-            Diet.Name = UserInterface.GetStringData("name?","the diet's");
-            Diet.FoodType = UserInterface.GetStringData("food type?","the animal's");
-            Console.WriteLine("How much food does the animal need per serving?");
-            int foodinCups = UserInterface.GetIntegerData();
-            Diet.FoodAmountInCups = foodinCups;
-            db.DietPlans.InsertOnSubmit(Diet);
+            
+            db.DietPlans.InsertOnSubmit(diet);
 
             try
             {
@@ -581,9 +581,29 @@ namespace HumaneSociety
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                db.SubmitChanges();
             }
 
+        }
+
+        internal static void UpdateDiet(int dietId)
+        {
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            DietPlan diet = new DietPlan();
+
+            diet = db.DietPlans.Where(d => d.DietPlanId == dietId).FirstOrDefault();
+
+            diet.Name = UserInterface.GetStringData("name?", "the updated diet`s");
+            diet.FoodType = UserInterface.GetStringData("food type?", "the updated diet`s");
+            diet.FoodAmountInCups = UserInterface.GetIntegerData("serving amount?", "the updated diet`s");
+
+            try
+            {
+                db.SubmitChanges();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
         }
     }
 }
