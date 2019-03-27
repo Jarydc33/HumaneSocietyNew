@@ -161,35 +161,23 @@ namespace HumaneSociety
         }
 
 
-        internal static void UpdateAdoption(bool v, Adoption adoption) //FIX
+        internal static void UpdateAdoption(bool v, Adoption adoption)
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
             adoption = db.Adoptions.Where(a => a.AnimalId == adoption.AnimalId).FirstOrDefault();
             if (v)
             {
                 
-                adoption.ApprovalStatus = "Adopted"; 
+                adoption.ApprovalStatus = "Adopted";
+                //ADD
             }
             else
             {
                 db.Adoptions.DeleteOnSubmit(adoption);
+                //ADD
             }
           
         }
-        //Console.WriteLine("Do you want to change adoption status to: Not Adopted, Pending, or Adopted?");
-        //string adoptionInput = UserInterface.GetUserInput();
-        //if (adoptionInput.ToLower() == "not adopted")
-        //{
-        //    animal.AdoptionStatus = "Not Adopted";
-        //}
-        //else if (adoptionInput.ToLower() == "pending")
-        //{
-        //    animal.AdoptionStatus = "Pending";
-        //}
-        //else if (adoptionInput.ToLower() == "adopted")
-        //{
-        //    animal.AdoptionStatus = "Adopted";
-        //}
 
         internal static List<Animal> SearchForAnimalByMultipleTraits(Dictionary<int,string> searchCriteria)
         {
@@ -421,7 +409,6 @@ namespace HumaneSociety
                         }
                         
                         break;
-
                 }
                
             }
@@ -435,7 +422,25 @@ namespace HumaneSociety
             {
                 Console.WriteLine(e);
             }
->>>>>>> 496dcb871b44c531c433cd5ff87a5e35bea5a23b
+        }
+
+        internal static void PlaceAnimalIntoRoom(int animalId)
+        {
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            Room room = new Room();
+
+            room = db.Rooms.Where(r => r.AnimalId == null).FirstOrDefault();
+            room.AnimalId = animalId;
+
+            try
+            {
+                db.SubmitChanges();
+                UserInterface.DisplayUserOptions("This animal was put in room " + room.RoomNumber);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
         }
 
         internal static void RemoveAnimal(Animal animal) //FIX
