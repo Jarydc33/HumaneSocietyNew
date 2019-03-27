@@ -194,8 +194,16 @@ namespace HumaneSociety
         internal static Animal GetAnimalByID(int iD)
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
-            var animalsById = db.Animals.Where(a => a.AnimalId == iD).Single();
-            return animalsById;
+            try
+            {
+                var animalsById = db.Animals.Where(a => a.AnimalId == iD).Single();
+                return animalsById;
+            }
+            catch
+            {                
+                return null;
+            }
+            
         }
 
 
@@ -255,7 +263,7 @@ namespace HumaneSociety
 
                         case 5:
                             
-                            if(criteria.Value.ToLower() == "yes")
+                            if(criteria.Value.ToLower() == "true")
                             {
                                 animals = animals.Where(a => a.KidFriendly == true).ToList();
                             }
@@ -266,7 +274,7 @@ namespace HumaneSociety
                             break;
 
                         case 6:
-                            if (criteria.Value.ToLower() == "yes")
+                            if (criteria.Value.ToLower() == "true")
                             {
                                 animals = animals.Where(a => a.PetFriendly == true).ToList();
                             }
@@ -406,7 +414,7 @@ namespace HumaneSociety
 
                     case 5:
 
-                        if (criteria.Value.ToLower() == "yes")
+                        if (criteria.Value.ToLower() == "true")
                         {
                             animals.KidFriendly = true;
                         }
@@ -418,7 +426,7 @@ namespace HumaneSociety
 
                     case 6:
 
-                        if (criteria.Value.ToLower() == "yes")
+                        if (criteria.Value.ToLower() == "true")
                         {
                             animals.PetFriendly = true;
                         }

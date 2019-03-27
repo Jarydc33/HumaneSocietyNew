@@ -80,6 +80,12 @@ namespace HumaneSociety
             UserInterface.DisplayUserOptions("Please enter the ID of the animal you wish to adopt or type reset or exit");
             int iD = UserInterface.GetIntegerData();
             var animal = Query.GetAnimalByID(iD);
+            if(animal == null)
+            {
+                UserInterface.DisplayUserOptions("That animal does not exist in our database. Press any key to go back to the main menu.");
+                Console.ReadLine();
+                RunUserMenus();
+            }
             UserInterface.DisplayAnimalInfo(animal);
             UserInterface.DisplayUserOptions("Would you like to adopt?");
             if ((bool)UserInterface.GetBitData())
@@ -300,6 +306,7 @@ namespace HumaneSociety
                     UpdatePassword();
                     break;
                 case 6:
+                    RunUserMenus();
                     break;
                 default:
                     UserInterface.DisplayUserOptions("You have reached this message in error please contact support or administator and give them code 10928849");
