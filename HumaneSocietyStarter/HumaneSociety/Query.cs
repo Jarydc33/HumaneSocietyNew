@@ -447,7 +447,16 @@ namespace HumaneSociety
         internal static void RemoveAnimal(Animal animal) 
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
-            animal = db.Animals.Where(a => a.AnimalId = animal).FirstOrDefault();
+            animal = db.Animals.Where(a => a.AnimalId == animal.AnimalId).FirstOrDefault();
+            db.Animals.DeleteOnSubmit(animal);
+        try
+        {
+            db.SubmitChanges();
+            }
+        catch (Exception e)
+            {
+            Console.WriteLine(e);
+            }
         }
 
         internal static int? GetCategoryId(string type) 
