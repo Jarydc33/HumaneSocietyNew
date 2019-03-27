@@ -563,8 +563,26 @@ namespace HumaneSociety
             }
         }
 
-        internal static void AddDiet(DietPlan diet)
+        internal static void AddDiet()
         {
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            DietPlan Diet = new DietPlan();
+            Diet.Name = UserInterface.GetStringData("name?","the diet's");
+            Diet.FoodType = UserInterface.GetStringData("food type?","the animal's");
+            Console.WriteLine("How much food does the animal need per serving?");
+            int foodinCups = UserInterface.GetIntegerData();
+            Diet.FoodAmountInCups = foodinCups;
+            db.DietPlans.InsertOnSubmit(Diet);
+
+            try
+            {
+                db.SubmitChanges();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                db.SubmitChanges();
+            }
 
         }
     }
