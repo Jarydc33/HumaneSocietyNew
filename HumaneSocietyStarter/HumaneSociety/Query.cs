@@ -544,5 +544,10 @@ namespace HumaneSociety
                 Console.WriteLine(e);
             }
         }
+
+        internal static void AddDiet(DietPlan diet)
+        {
+
+        }
     }
 }
