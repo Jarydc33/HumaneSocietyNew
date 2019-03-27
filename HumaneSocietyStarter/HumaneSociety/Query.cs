@@ -260,9 +260,13 @@ namespace HumaneSociety
 
         internal static List<AnimalShot> GetShots(Animal animal) 
         {
-            
-           
-            
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            var shotsFromDb = db.AnimalShots.ToList();
+            return shotsFromDb;
+
+
+
+
 
             throw new NotImplementedException();
         }
