@@ -371,7 +371,7 @@ namespace HumaneSociety
             var shotsFromDb = db.AnimalShots.ToList();
             return shotsFromDb;
 
-            throw new NotImplementedException();
+           
         }
 
         internal static bool CheckEmployeeUserNameExist(string userName)
