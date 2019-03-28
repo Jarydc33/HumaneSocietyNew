@@ -248,7 +248,7 @@ namespace HumaneSociety
             {
                 
                 adoption.ApprovalStatus = "Adopted";
-                animal.AdoptionStatus = "Adopted";
+                animal.AdoptionStatus = "Adopted"; //can makes changes to him after he is gone? Remove from room
             }
             else
             {
@@ -280,7 +280,7 @@ namespace HumaneSociety
                             break;
 
                         case 2:
-                            animals = animals.Where(a => a.Name == criteria.Value).ToList();
+                            animals = animals.Where(a => a.Name.ToLower() == criteria.Value.ToLower()).ToList();
                             break;
 
                         case 3:
@@ -289,7 +289,7 @@ namespace HumaneSociety
                             break;
 
                         case 4:
-                            animals = animals.Where(a => a.Demeanor == criteria.Value).ToList();
+                            animals = animals.Where(a => a.Demeanor.ToLower() == criteria.Value.ToLower()).ToList();
                             break;
 
                         case 5:
@@ -532,7 +532,21 @@ namespace HumaneSociety
         internal static void RemoveAnimal(Animal animal) 
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            Room room = new Room();
+            Adoption adoption = new Adoption();
+            adoption = db.Adoptions.Where(a => a.AnimalId == animal.AnimalId).FirstOrDefault();
             animal = db.Animals.Where(a => a.AnimalId == animal.AnimalId).FirstOrDefault();
+            room = db.Rooms.Where(r => r.AnimalId == animal.AnimalId).FirstOrDefault();
+
+            if(room != null)
+            {
+                room.AnimalId = null;
+            }
+            if(adoption != null)
+            {
+                db.Adoptions.DeleteOnSubmit(adoption);
+            }
+
             db.Animals.DeleteOnSubmit(animal);
             try
             {
