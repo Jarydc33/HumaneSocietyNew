@@ -559,6 +559,13 @@ namespace HumaneSociety
             UserInterface.DisplayUserOptions("What room would you like to move the animal to?");
             int newRoom = UserInterface.GetIntegerData();
 
+            if(newRoom > 30 || newRoom < 25)
+            {
+                UserInterface.DisplayUserOptions("That room does not exist. Press any key to continue.");
+                Console.ReadLine();
+                return;
+            }
+
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
             Room room = new Room();
             room = db.Rooms.Where(r => r.RoomNumber == newRoom).FirstOrDefault();
