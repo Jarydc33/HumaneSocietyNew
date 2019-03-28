@@ -186,9 +186,10 @@ namespace HumaneSociety
             if (UserInterface.GetBitData("Would you like to Update shots?"))
             {
                 Console.WriteLine("Which shot does your animal need?");
-                string userInput = Console.ReadLine();
+                int userInput = UserInterface.GetIntegerData();
+               
                 Query.UpdateShot(userInput, animal);
-                Console.WriteLine("shots have been updated.");
+                
                 Console.WriteLine("Press enter to return to menu.");
                 Console.ReadLine();
             }
