@@ -259,6 +259,11 @@ namespace HumaneSociety
             {
                 Query.RemoveAnimal(animal);
             }
+            else
+            {
+                UserInterface.DisplayUserOptions("Animal was not deleted. Press any key to continue.");
+                Console.ReadLine();
+            }
         }
         public void AddAnimal()
         {
@@ -266,6 +271,7 @@ namespace HumaneSociety
             Animal animal = new Animal();
             string type = UserInterface.GetStringData("species","the animal`s");
             animal.CategoryId = Query.GetCategoryId(type);
+            if (animal.CategoryId == null) { RunUserMenus(); }
             animal.Name = UserInterface.GetStringData("name", "the animal's");
             animal.Age = UserInterface.GetIntegerData("age", "the animal's");
             animal.Demeanor = UserInterface.GetStringData("demeanor", "the animal's");
@@ -275,7 +281,6 @@ namespace HumaneSociety
             animal.Gender = UserInterface.GetStringData("gender", "the animal's");
             animal.AdoptionStatus = UserInterface.GetStringData("adoption status", "the animal's");
             animal.DietPlanId = Query.GetDietPlanId(type);
-            animal.DietPlanId = null;
             Query.AddAnimal(animal);
             Query.PlaceAnimalIntoRoom(animal.AnimalId);
         }

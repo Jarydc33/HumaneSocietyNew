@@ -552,20 +552,21 @@ namespace HumaneSociety
 
             if(category == 0)
             {
-                CreateCategoryId(type);
+                int? newcategory = CreateCategoryId(type);
+                return newcategory;
             }
 
             return category;
         }
 
-        internal static void CreateCategoryId(string type)
+        internal static int? CreateCategoryId(string type)
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
 
             UserInterface.DisplayUserOptions("That animal does not exist in the database, would you like to add it?");
             string input = UserInterface.GetUserInput();
 
-            if (input == "yes" || input == "y")
+            if (input.ToLower() == "yes" || input.ToLower() == "y")
             {
                 Category newcategory = new Category();
                 newcategory.Name = type;
@@ -579,9 +580,11 @@ namespace HumaneSociety
                 {
                     Console.WriteLine(e);
                 }
+                return newcategory.CategoryId;
             }
-
-            GetCategoryId(type);
+            UserInterface.DisplayUserOptions("The animal needs a category to be added into the database. Press any key to return.");
+            Console.ReadLine();
+            return null;
         }
 
         internal static int? GetDietPlanId(string type)
