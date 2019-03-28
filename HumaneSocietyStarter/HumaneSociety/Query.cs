@@ -124,18 +124,35 @@ namespace HumaneSociety
             {
                 case "delete":
 
-                    employee = db.Employees.Where(e => e.EmployeeId == employee.EmployeeId).FirstOrDefault();
+                    
+                    List<Animal> animals = db.Animals.Where(a => a.EmployeeId == employee.EmployeeNumber).ToList();
+                    employee = db.Employees.Where(e => e.EmployeeNumber == employee.EmployeeNumber).FirstOrDefault();
+                    foreach (Animal pets in animals)
+                    {
+                        pets.EmployeeId = null;
+                    }
+
                     db.Employees.DeleteOnSubmit(employee);
+
+                    try
+                    {
+                        db.SubmitChanges();
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e);
+                    }
 
                     break;
 
                 case "read":
-                    employee = db.Employees.Where(e => e.EmployeeId == employee.EmployeeId).FirstOrDefault();
-                    UserInterface.DisplayUserOptions("First Name: " + employee.FirstName + "/n Last Name: " + employee.LastName + "UserName: " + employee.UserName + "/n Password: " + employee.Password + "/n Employee Nmber: " + employee.EmployeeNumber + "/n Email: " + employee.Email);
+                    employee = db.Employees.Where(e => e.EmployeeNumber == employee.EmployeeNumber).FirstOrDefault();
+                    UserInterface.DisplayUserOptions(" First Name: " + employee.FirstName + "\n Last Name: " + employee.LastName + "\n UserName: " + employee.UserName + "\n Password: " + employee.Password + "\n Employee Nmber: " + employee.EmployeeNumber + "\n Email: " + employee.Email + "\n Press any key to continue.");
+                    Console.ReadLine();
                     break;
 
                 case "update":
-                    Employee newEmployee = db.Employees.Where(e => e.EmployeeId == employee.EmployeeId).FirstOrDefault();
+                    Employee newEmployee = db.Employees.Where(e => e.EmployeeNumber == employee.EmployeeNumber).FirstOrDefault();
                     newEmployee.FirstName = employee.FirstName;
                     newEmployee.LastName = employee.LastName;
                     newEmployee.EmployeeNumber = employee.EmployeeNumber;
@@ -144,7 +161,20 @@ namespace HumaneSociety
                     break;
 
                 case "create":
-                    db.Employees.InsertOnSubmit(employee);
+                    Employee testEmployee = new Employee();
+                    testEmployee = db.Employees.Where(e => e.EmployeeNumber == employee.EmployeeNumber).FirstOrDefault();
+                    if(testEmployee == null)
+                    {
+                        
+                        db.Employees.InsertOnSubmit(employee);
+                        UserInterface.DisplayUserOptions("Employee addition successful. Press any key to continue.");
+                        Console.ReadLine();
+                    }
+                    else
+                    {
+                        Console.WriteLine("That employee number is already in use, press any key to go back to the main menu.");
+                        Console.ReadLine();
+                    }
                     break;
             }
 
@@ -176,10 +206,11 @@ namespace HumaneSociety
             adoption.ClientId = client.ClientId;
             adoption.AnimalId = animal.AnimalId;
             adoption.ApprovalStatus = "Pending";
-            adoption.AdoptionFee = 9000;
+            adoption.AdoptionFee = 75;
             adoption.PaymentCollected = true;
             animal.AdoptionStatus = "Pending";
-            
+
+            db.Adoptions.InsertOnSubmit(adoption);
 
             try
             {
@@ -194,8 +225,16 @@ namespace HumaneSociety
         internal static Animal GetAnimalByID(int iD)
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
-            var animalsById = db.Animals.Where(a => a.AnimalId == iD).Single();
-            return animalsById;
+            try
+            {
+                var animalsById = db.Animals.Where(a => a.AnimalId == iD).Single();
+                return animalsById;
+            }
+            catch
+            {                
+                return null;
+            }
+            
         }
 
 
@@ -255,7 +294,7 @@ namespace HumaneSociety
 
                         case 5:
                             
-                            if(criteria.Value.ToLower() == "yes")
+                            if(criteria.Value.ToLower() == "true")
                             {
                                 animals = animals.Where(a => a.KidFriendly == true).ToList();
                             }
@@ -266,7 +305,7 @@ namespace HumaneSociety
                             break;
 
                         case 6:
-                            if (criteria.Value.ToLower() == "yes")
+                            if (criteria.Value.ToLower() == "true")
                             {
                                 animals = animals.Where(a => a.PetFriendly == true).ToList();
                             }
@@ -341,7 +380,14 @@ namespace HumaneSociety
 
             Employee employeeWithUserName = db.Employees.Where(e => e.UserName == userName).FirstOrDefault();
 
-            return employeeWithUserName == null;
+            if(employeeWithUserName == null)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
 
         internal static void UpdateShot(string v, Animal animal)
@@ -406,7 +452,7 @@ namespace HumaneSociety
 
                     case 5:
 
-                        if (criteria.Value.ToLower() == "yes")
+                        if (criteria.Value.ToLower() == "true")
                         {
                             animals.KidFriendly = true;
                         }
@@ -418,7 +464,7 @@ namespace HumaneSociety
 
                     case 6:
 
-                        if (criteria.Value.ToLower() == "yes")
+                        if (criteria.Value.ToLower() == "true")
                         {
                             animals.PetFriendly = true;
                         }
