@@ -161,7 +161,18 @@ namespace HumaneSociety
                     break;
 
                 case "create":
-                    db.Employees.InsertOnSubmit(employee);
+                    Employee testEmployee = new Employee();
+                    testEmployee = db.Employees.Where(e => e.EmployeeNumber == employee.EmployeeNumber).FirstOrDefault();
+                    if(testEmployee == null)
+                    {
+                        
+                        db.Employees.InsertOnSubmit(employee);
+                    }
+                    else
+                    {
+                        Console.WriteLine("That employee number is already in use, press any key to go back to the main menu.");
+                        Console.ReadLine();
+                    }
                     break;
             }
 
@@ -367,7 +378,14 @@ namespace HumaneSociety
 
             Employee employeeWithUserName = db.Employees.Where(e => e.UserName == userName).FirstOrDefault();
 
-            return employeeWithUserName == null;
+            if(employeeWithUserName == null)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
 
         internal static void UpdateShot(string v, Animal animal)
