@@ -239,15 +239,16 @@ namespace HumaneSociety
 
             Dictionary<int, string> searchDictionary = UserInterface.GetAnimalCriteria();
             var animals = Query.SearchForAnimalByMultipleTraits(searchDictionary).ToList();
-            if (animals.Count > 1)
+            while (animals.Count > 1)
             {
                 UserInterface.DisplayUserOptions("Several animals found please refine your search.");
                 UserInterface.DisplayAnimals(animals);
-                UserInterface.DisplayUserOptions("Press enter to continue");
+                UserInterface.DisplayUserOptions("Press enter to continue searching");
                 Console.ReadLine();
-                return;
+                searchDictionary = UserInterface.GetAnimalCriteria();
+                animals = Query.SearchForAnimalByMultipleTraits(searchDictionary).ToList();
             }
-            else if (animals.Count < 1)
+            if (animals.Count < 1)
             {
                 UserInterface.DisplayUserOptions("Animal not found please use different search criteria");
                 return;
