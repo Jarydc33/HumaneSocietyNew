@@ -164,7 +164,7 @@ namespace HumaneSociety
                     Query.MoveAnimal(animal);
                     break;
                 case 5:
-
+                    Query.ChangeAnimalDiet(animal);
                     break;
                 default:
                     UserInterface.DisplayUserOptions("Input not accepted please select a menu choice");

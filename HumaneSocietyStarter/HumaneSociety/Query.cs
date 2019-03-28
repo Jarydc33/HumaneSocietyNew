@@ -721,6 +721,40 @@ namespace HumaneSociety
 
         }
 
+        internal static void ChangeAnimalDiet(Animal animal)
+        {
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            Animal newAnimal = new Animal();
+            DietPlan diet = new DietPlan();
+            UserInterface.DisplayUserOptions("What DietPlanId would you like to change the animal to?");
+            int newDiet = UserInterface.GetIntegerData();
+
+            diet = db.DietPlans.Where(d => d.DietPlanId == newDiet).FirstOrDefault();
+
+            if(diet == null)
+            {
+                UserInterface.DisplayUserOptions("That diet plan does not exist. Press any key to continue.");
+                Console.ReadLine();
+                return;
+            }
+
+            newAnimal = db.Animals.Where(a => a.AnimalId == animal.AnimalId).FirstOrDefault();
+            newAnimal.DietPlanId = newDiet;
+
+            try
+            {
+                db.SubmitChanges();
+                UserInterface.DisplayUserOptions("Diet plan changed. Press any key to continue.");
+                Console.ReadLine();
+
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+        }
+
         internal static void UpdateDiet(int dietId)
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
