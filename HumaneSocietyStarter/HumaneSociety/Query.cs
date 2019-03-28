@@ -582,7 +582,8 @@ namespace HumaneSociety
                 }
                 return newcategory.CategoryId;
             }
-
+            UserInterface.DisplayUserOptions("The animal needs a category to be added into the database. Press any ket to return.");
+            Console.ReadLine();
             return null;
         }
 
