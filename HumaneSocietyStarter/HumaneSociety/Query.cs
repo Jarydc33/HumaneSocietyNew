@@ -146,8 +146,9 @@ namespace HumaneSociety
                     break;
 
                 case "read":
-                    employee = db.Employees.Where(e => e.EmployeeId == employee.EmployeeId).FirstOrDefault();
-                    UserInterface.DisplayUserOptions("First Name: " + employee.FirstName + "/n Last Name: " + employee.LastName + "UserName: " + employee.UserName + "/n Password: " + employee.Password + "/n Employee Nmber: " + employee.EmployeeNumber + "/n Email: " + employee.Email);
+                    employee = db.Employees.Where(e => e.EmployeeNumber == employee.EmployeeNumber).FirstOrDefault();
+                    UserInterface.DisplayUserOptions(" First Name: " + employee.FirstName + "\n Last Name: " + employee.LastName + "\n UserName: " + employee.UserName + "\n Password: " + employee.Password + "\n Employee Nmber: " + employee.EmployeeNumber + "\n Email: " + employee.Email + "\n Press any key to continue.");
+                    Console.ReadLine();
                     break;
 
                 case "update":
