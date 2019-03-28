@@ -124,8 +124,24 @@ namespace HumaneSociety
             {
                 case "delete":
 
-                    employee = db.Employees.Where(e => e.EmployeeId == employee.EmployeeId).FirstOrDefault();
+                    
+                    List<Animal> animals = db.Animals.Where(a => a.EmployeeId == employee.EmployeeNumber).ToList();
+                    employee = db.Employees.Where(e => e.EmployeeNumber == employee.EmployeeNumber).FirstOrDefault();
+                    foreach (Animal pets in animals)
+                    {
+                        pets.EmployeeId = null;
+                    }
+
                     db.Employees.DeleteOnSubmit(employee);
+
+                    try
+                    {
+                        db.SubmitChanges();
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e);
+                    }
 
                     break;
 

@@ -14,7 +14,7 @@ namespace HumaneSociety
         {
             UserInterface.DisplayUserOptions("What is your password?");
             string password = UserInterface.GetUserInput();
-            if (password.ToLower() != "poiuyt")
+            if (password.ToLower() != "pass")
             {
                 UserInterface.DisplayUserOptions("Incorrect password please try again or type exit");
             }
