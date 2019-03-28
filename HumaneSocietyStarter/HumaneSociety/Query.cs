@@ -403,17 +403,18 @@ namespace HumaneSociety
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
             AnimalShot animalShots = new AnimalShot();
-            AnimalShot checkShots = new AnimalShot();
+            Shot checkShots = new Shot();
             
             animalShots = db.AnimalShots.Where(a => a.AnimalId == animal.AnimalId && a.ShotId == v).FirstOrDefault();
-            checkShots = db.AnimalShots.Where(a => a.ShotId == v).FirstOrDefault();
+            checkShots = db.Shots.Where(a => a.ShotId == v).FirstOrDefault();
+            
             if (checkShots == null)
             {
                 UserInterface.DisplayUserOptions("This shot does not exist. Press any key to continue.");
                 Console.ReadLine();
                 return;
             }
-            if (animalShots == null)
+            else if (animalShots == null)
             {
                 AnimalShot animalShot = new AnimalShot();
                 animalShot.ShotId = v;
@@ -423,7 +424,7 @@ namespace HumaneSociety
                 try
                 {
                     db.SubmitChanges();
-                    Console.WriteLine("shots have been updated.");
+                    Console.WriteLine("Shots have been updated.");
                 }
                 catch (Exception e)
                 {
@@ -432,15 +433,16 @@ namespace HumaneSociety
 
 
             }
-            else
+            else if(animalShots != null)
             {
                 UserInterface.DisplayUserOptions("Animal already has this shot, press any key to continue.");
                 Console.ReadLine();
                 
             }
             
-            
-            
+
+
+
         }
 
         internal static void AddUsernameAndPassword(Employee employee)
@@ -601,8 +603,8 @@ namespace HumaneSociety
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
             Room room = new Room();
             Adoption adoption = new Adoption();
-            AnimalShot animalshot = new AnimalShot();
-            animalshot = db.AnimalShots.Where(s => s.AnimalId == animal.AnimalId).FirstOrDefault();
+            List<AnimalShot> animalshot = new List<AnimalShot>();
+            animalshot = db.AnimalShots.Where(s => s.AnimalId == animal.AnimalId).ToList();
             adoption = db.Adoptions.Where(a => a.AnimalId == animal.AnimalId).FirstOrDefault();
             animal = db.Animals.Where(a => a.AnimalId == animal.AnimalId).FirstOrDefault();
             room = db.Rooms.Where(r => r.AnimalId == animal.AnimalId).FirstOrDefault();
@@ -617,7 +619,11 @@ namespace HumaneSociety
             }
             if(animalshot != null)
             {
-                db.AnimalShots.DeleteOnSubmit(animalshot);
+                foreach(AnimalShot shot in animalshot)
+                {
+                    db.AnimalShots.DeleteOnSubmit(shot);
+                }
+                
             }
 
             db.Animals.DeleteOnSubmit(animal);
