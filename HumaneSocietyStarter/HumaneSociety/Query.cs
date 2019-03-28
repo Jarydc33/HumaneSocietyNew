@@ -52,7 +52,6 @@ namespace HumaneSociety
 
             Address addressFromDb = db.Addresses.Where(a => a.AddressLine1 == streetAddress && a.Zipcode == zipCode && a.USStateId == stateId).FirstOrDefault();
 
-            // if the address isn't found in the Db, create and insert it
             if (addressFromDb == null)
             {
                 Address newAddress = new Address();
@@ -67,7 +66,6 @@ namespace HumaneSociety
                 addressFromDb = newAddress;
             }
 
-            // attach AddressId to clientFromDb.AddressId
             newClient.AddressId = addressFromDb.AddressId;
 
             db.Clients.InsertOnSubmit(newClient);
@@ -79,23 +77,18 @@ namespace HumaneSociety
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
 
-            // find corresponding Client from Db
             Client clientFromDb = db.Clients.Where(c => c.ClientId == clientWithUpdates.ClientId).Single();
 
-            // update clientFromDb information with the values on clientWithUpdates (aside from address)
             clientFromDb.FirstName = clientWithUpdates.FirstName;
             clientFromDb.LastName = clientWithUpdates.LastName;
             clientFromDb.UserName = clientWithUpdates.UserName;
             clientFromDb.Password = clientWithUpdates.Password;
             clientFromDb.Email = clientWithUpdates.Email;
 
-            // get address object from clientWithUpdates
             Address clientAddress = clientWithUpdates.Address;
 
-            // look for existing Address in Db (null will be returned if the address isn't already in the Db
             Address updatedAddress = db.Addresses.Where(a => a.AddressLine1 == clientAddress.AddressLine1 && a.USStateId == clientAddress.USStateId && a.Zipcode == clientAddress.Zipcode).FirstOrDefault();
 
-            // if the address isn't found in the Db, create and insert it
             if (updatedAddress == null)
             {
                 Address newAddress = new Address();
@@ -110,10 +103,8 @@ namespace HumaneSociety
                 updatedAddress = newAddress;
             }
 
-            // attach AddressId to clientFromDb.AddressId
             clientFromDb.AddressId = updatedAddress.AddressId;
 
-            // submit changes
             db.SubmitChanges();
         }
 
@@ -123,8 +114,6 @@ namespace HumaneSociety
             switch (v)
             {
                 case "delete":
-
-                    
                     List<Animal> animals = db.Animals.Where(a => a.EmployeeId == employee.EmployeeNumber).ToList();
                     employee = db.Employees.Where(e => e.EmployeeNumber == employee.EmployeeNumber).FirstOrDefault();
                     foreach (Animal pets in animals)
@@ -133,7 +122,6 @@ namespace HumaneSociety
                     }
 
                     db.Employees.DeleteOnSubmit(employee);
-
                     try
                     {
                         db.SubmitChanges();
@@ -177,7 +165,6 @@ namespace HumaneSociety
                     }
                     break;
             }
-
             try
             {
                 db.SubmitChanges();
@@ -186,7 +173,6 @@ namespace HumaneSociety
             {
                 Console.WriteLine(e);
             }
-           
         }
        
         internal static Room GetRoom(int animalId)
@@ -211,7 +197,6 @@ namespace HumaneSociety
             animal.AdoptionStatus = "Pending";
 
             db.Adoptions.InsertOnSubmit(adoption);
-
             try
             {
                 db.SubmitChanges(); 
@@ -234,9 +219,7 @@ namespace HumaneSociety
             {                
                 return null;
             }
-            
         }
-
 
         internal static void UpdateAdoption(bool v, Adoption adoption)
         {
@@ -246,9 +229,8 @@ namespace HumaneSociety
             animal = db.Animals.Where(a => a.AnimalId == adoption.AnimalId).FirstOrDefault();
             if (v)
             {
-                
                 adoption.ApprovalStatus = "Adopted";
-                animal.AdoptionStatus = "Adopted"; //can makes changes to him after he is gone? Remove from room
+                animal.AdoptionStatus = "Adopted";
             }
             else
             {
@@ -301,7 +283,6 @@ namespace HumaneSociety
                             break;
 
                         case 5:
-                            
                             if(criteria.Value.ToLower() == "true")
                             {
                                 animals = animals.Where(a => a.KidFriendly == true).ToList();
@@ -332,11 +313,9 @@ namespace HumaneSociety
                             int id = int.Parse(criteria.Value);
                             animals = animals.Where(a => a.AnimalId == id).ToList();
                             break;
-
                     }
                 }
             }
-
             return animals;
         }
 
@@ -351,7 +330,6 @@ namespace HumaneSociety
         internal static Employee RetrieveEmployeeUser(string email, int employeeNumber)
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
-
             Employee employeeFromDb = db.Employees.Where(e => e.Email == email && e.EmployeeNumber == employeeNumber).FirstOrDefault();
 
             if (employeeFromDb == null)
@@ -367,7 +345,6 @@ namespace HumaneSociety
         internal static Employee EmployeeLogin(string userName, string password)
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
-
             Employee employeeFromDb = db.Employees.Where(e => e.UserName == userName && e.Password == password).FirstOrDefault();
 
             return employeeFromDb;
@@ -379,14 +356,11 @@ namespace HumaneSociety
             var shotsFromDb = db.AnimalShots.Where(a => a.AnimalId == animal.AnimalId).ToList();
             
             return shotsFromDb;
-        
-           
         }
 
         internal static bool CheckEmployeeUserNameExist(string userName)
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
-
             Employee employeeWithUserName = db.Employees.Where(e => e.UserName == userName).FirstOrDefault();
 
             if(employeeWithUserName == null)
@@ -430,8 +404,6 @@ namespace HumaneSociety
                 {
                     Console.WriteLine(e);
                 }
-
-
             }
             else if(animalShots != null)
             {
@@ -439,16 +411,11 @@ namespace HumaneSociety
                 Console.ReadLine();
                 
             }
-            
-
-
-
         }
 
         internal static void AddUsernameAndPassword(Employee employee)
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
-
             Employee employeeFromDb = db.Employees.Where(e => e.EmployeeId == employee.EmployeeId).FirstOrDefault();
 
             employeeFromDb.UserName = employee.UserName;
@@ -459,7 +426,6 @@ namespace HumaneSociety
 
         internal static void EnterAnimalUpdate(Animal animals, Dictionary<int, string> updates)
         {
-
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
             Room room = new Room();
             animals = db.Animals.Where(a => a.AnimalId == animals.AnimalId).FirstOrDefault();
@@ -469,7 +435,6 @@ namespace HumaneSociety
                 Console.ReadLine();
                 return;
             }
-
             foreach (KeyValuePair<int, string> criteria in updates)
             {
                 switch (criteria.Key)
@@ -480,7 +445,7 @@ namespace HumaneSociety
 
                     case 2:
                         animals.Name = criteria.Value;
-                            break;
+                        break;
 
                     case 3:
                         animals.Age = int.Parse(criteria.Value);
@@ -491,7 +456,6 @@ namespace HumaneSociety
                         break;
 
                     case 5:
-
                         if (criteria.Value.ToLower() == "true")
                         {
                             animals.KidFriendly = true;
@@ -503,7 +467,6 @@ namespace HumaneSociety
                         break;
 
                     case 6:
-
                         if (criteria.Value.ToLower() == "true")
                         {
                             animals.PetFriendly = true;
@@ -515,17 +478,10 @@ namespace HumaneSociety
                         break;
 
                     case 7:
-
                         animals.Weight = int.Parse(criteria.Value);
                         break;
-
-                    case 9:
-                        animals.DietPlanId = int.Parse(criteria.Value);
-                        break;
                 }
-               
             }
-
             try
             {
                 db.SubmitChanges();
@@ -623,7 +579,6 @@ namespace HumaneSociety
                 {
                     db.AnimalShots.DeleteOnSubmit(shot);
                 }
-                
             }
 
             db.Animals.DeleteOnSubmit(animal);
@@ -648,7 +603,6 @@ namespace HumaneSociety
                 int? newcategory = CreateCategoryId(type);
                 return newcategory;
             }
-
             return category;
         }
 
@@ -724,7 +678,6 @@ namespace HumaneSociety
             {
                 Console.WriteLine(e);
             }
-
         }
 
         internal static void ChangeAnimalDiet(Animal animal)
@@ -752,8 +705,6 @@ namespace HumaneSociety
                 db.SubmitChanges();
                 UserInterface.DisplayUserOptions("Diet plan changed. Press any key to continue.");
                 Console.ReadLine();
-
-
             }
             catch (Exception e)
             {
