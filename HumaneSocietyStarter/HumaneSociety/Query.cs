@@ -167,6 +167,8 @@ namespace HumaneSociety
                     {
                         
                         db.Employees.InsertOnSubmit(employee);
+                        UserInterface.DisplayUserOptions("Employee addition successful. Press any key to continue.");
+                        Console.ReadLine();
                     }
                     else
                     {

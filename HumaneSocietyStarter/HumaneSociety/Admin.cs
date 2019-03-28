@@ -55,7 +55,8 @@ namespace HumaneSociety
             }
             else
             {
-                UserInterface.DisplayUserOptions("Input not recognized please try again or type exit");
+                UserInterface.DisplayUserOptions("Input not recognized press any key to go back to the main menu.");
+                Console.ReadLine();
                 editEmployees = null;
                 RunUserMenus();
             }
@@ -76,12 +77,14 @@ namespace HumaneSociety
             try
             {
                 Query.RunEmployeeQueries(employee, "update");
-                UserInterface.DisplayUserOptions("Employee update successful.");
+                UserInterface.DisplayUserOptions("Employee update successful. Press any key to continue.");
+                Console.ReadLine();
             }
             catch
             {
                 Console.Clear();
-                UserInterface.DisplayUserOptions("Employee update unsuccessful please try again or type exit;");
+                UserInterface.DisplayUserOptions("Employee update unsuccessful press any key to continue.");
+                Console.ReadLine();
                 return;
             }
         }
@@ -97,7 +100,8 @@ namespace HumaneSociety
             catch
             {
                 Console.Clear();
-                UserInterface.DisplayUserOptions("Employee not found please try again or type exit;");
+                UserInterface.DisplayUserOptions("Employee not found. Press any key to return to the main menu.");
+                Console.ReadLine();
                 return;
             }
         }
@@ -111,7 +115,8 @@ namespace HumaneSociety
             {
                 Console.Clear();
                 Query.RunEmployeeQueries(employee, "delete");
-                UserInterface.DisplayUserOptions("Employee successfully removed");
+                UserInterface.DisplayUserOptions("Employee successfully removed. Press any key to continue.");
+                Console.ReadLine();
             }
             catch
             {
@@ -131,12 +136,12 @@ namespace HumaneSociety
             try
             {
                 Query.RunEmployeeQueries(employee, "create");
-                UserInterface.DisplayUserOptions("Employee addition successful.");
             }
             catch
             {
                 Console.Clear();
-                UserInterface.DisplayUserOptions("Employee addition unsuccessful please try again or type exit;");
+                UserInterface.DisplayUserOptions("Employee addition unsuccessful press any key to go back to the main menu.");
+                Console.ReadLine();
                 return;
             }
         }
