@@ -255,7 +255,15 @@ namespace HumaneSociety
                 db.Adoptions.DeleteOnSubmit(adoption);
                 animal.AdoptionStatus = "Not Adopted";
             }
-          
+            try
+            {
+                db.SubmitChanges();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+
         }
 
         internal static List<Animal> SearchForAnimalByMultipleTraits(Dictionary<int,string> searchCriteria)
