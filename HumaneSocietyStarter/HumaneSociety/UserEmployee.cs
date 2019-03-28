@@ -286,6 +286,9 @@ namespace HumaneSociety
                 int foodinCups = UserInterface.GetIntegerData();
                 Diet.FoodAmountInCups = foodinCups;
                 Query.AddDiet(Diet);
+                Console.WriteLine("You have added a new dietplan. The name is " + Diet.Name + ". The food is " + Diet.FoodType + ". The amount per serving is " + Diet.FoodAmountInCups);
+                Console.WriteLine("Press enter if this looks correct.");
+                Console.ReadLine();
             }
             
         }               

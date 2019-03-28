@@ -408,7 +408,7 @@ namespace HumaneSociety
             {
                 Console.WriteLine(e);
             }
-            throw new NotImplementedException();
+            
         }
 
         internal static void AddUsernameAndPassword(Employee employee)
