@@ -80,6 +80,10 @@ namespace HumaneSociety
                 int input = UserInterface.GetIntegerData();
                 ApproveAdoption(adoptions[input - 1]);
             }
+            else
+            {
+                Console.WriteLine("There are no pending adoptions currently available. Please consult our animals database before setting up an adoption.");
+            }
 
         }
 
@@ -175,11 +179,19 @@ namespace HumaneSociety
             {
                 UserInterface.DisplayUserOptions(shotInfo);
             }
+            else
+            {
+                Console.WriteLine("There are no shots available for " + animal + ".");
+            }
             if (UserInterface.GetBitData("Would you like to Update shots?"))
             {
                 Console.WriteLine("Which shot does your animal need?");
                 string userInput = Console.ReadLine();
                 Query.UpdateShot(userInput, animal);
+                Console.WriteLine("shots for " + animal + " have been updated. Their shot info is displayed below.");
+                UserInterface.DisplayUserOptions(shotInfo);
+                Console.WriteLine("Press enter to return to menu.");
+                Console.ReadLine();
             }
         }
 
@@ -292,7 +304,7 @@ namespace HumaneSociety
                 int foodinCups = UserInterface.GetIntegerData();
                 Diet.FoodAmountInCups = foodinCups;
                 Query.AddDiet(Diet);
-                Console.WriteLine("You have added a new dietplan. The name is " + Diet.Name + ". The food is " + Diet.FoodType + ". The amount per serving is " + Diet.FoodAmountInCups);
+                Console.WriteLine("You have added a new dietplan. The name of the diet plan is " + Diet.Name + ". The food type is " + Diet.FoodType + ". " + Diet.FoodAmountInCups + " cups per serving is the recommended amount.");
                 Console.WriteLine("Press enter if this looks correct.");
                 Console.ReadLine();
             }
