@@ -78,9 +78,14 @@ namespace HumaneSociety
             {
                 return true;
             }
-            else
+            else if (input.ToLower() == "no" || input.ToLower() == "n") 
             {
                 return false;
+            }
+            else
+            {
+                Console.WriteLine("Your input needs to be yes or no.");
+                return GetBitData(target, parameter);
             }
         }
 

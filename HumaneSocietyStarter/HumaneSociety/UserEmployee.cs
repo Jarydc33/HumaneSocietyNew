@@ -247,6 +247,11 @@ namespace HumaneSociety
             {
                 Query.RemoveAnimal(animal);
             }
+            else
+            {
+                UserInterface.DisplayUserOptions("Animal was not deleted. Press any key to continue.");
+                Console.ReadLine();
+            }
         }
         public void AddAnimal()
         {
