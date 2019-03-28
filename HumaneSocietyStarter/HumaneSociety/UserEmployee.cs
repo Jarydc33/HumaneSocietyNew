@@ -263,7 +263,6 @@ namespace HumaneSociety
             animal.Gender = UserInterface.GetStringData("gender", "the animal's");
             animal.AdoptionStatus = UserInterface.GetStringData("adoption status", "the animal's");
             animal.DietPlanId = Query.GetDietPlanId(type);
-            animal.DietPlanId = null;
             Query.AddAnimal(animal);
             Query.PlaceAnimalIntoRoom(animal.AnimalId);
         }

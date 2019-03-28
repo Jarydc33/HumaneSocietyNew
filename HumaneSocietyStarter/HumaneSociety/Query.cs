@@ -552,13 +552,14 @@ namespace HumaneSociety
 
             if(category == 0)
             {
-                CreateCategoryId(type);
+                int? newcategory = CreateCategoryId(type);
+                return newcategory;
             }
 
             return category;
         }
 
-        internal static void CreateCategoryId(string type)
+        internal static int? CreateCategoryId(string type)
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
 
@@ -579,9 +580,10 @@ namespace HumaneSociety
                 {
                     Console.WriteLine(e);
                 }
+                return newcategory.CategoryId;
             }
 
-            GetCategoryId(type);
+            return null;
         }
 
         internal static int? GetDietPlanId(string type)
