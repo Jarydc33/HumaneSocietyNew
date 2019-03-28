@@ -176,10 +176,11 @@ namespace HumaneSociety
             adoption.ClientId = client.ClientId;
             adoption.AnimalId = animal.AnimalId;
             adoption.ApprovalStatus = "Pending";
-            adoption.AdoptionFee = 9000;
+            adoption.AdoptionFee = 75;
             adoption.PaymentCollected = true;
             animal.AdoptionStatus = "Pending";
-            
+
+            db.Adoptions.InsertOnSubmit(adoption);
 
             try
             {
