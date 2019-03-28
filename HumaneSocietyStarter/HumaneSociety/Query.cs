@@ -453,6 +453,12 @@ namespace HumaneSociety
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
             Room room = new Room();
             animals = db.Animals.Where(a => a.AnimalId == animals.AnimalId).FirstOrDefault();
+            if(animals.AdoptionStatus.ToLower() == "adopted")
+            {
+                Console.WriteLine("This animal has been adopted. No changes can be made. Press any key to continue.");
+                Console.ReadLine();
+                return;
+            }
 
             foreach (KeyValuePair<int, string> criteria in updates)
             {
@@ -503,19 +509,6 @@ namespace HumaneSociety
                         animals.Weight = int.Parse(criteria.Value);
                         break;
 
-                    case 8:
-                        room = db.Rooms.Where(r => r.AnimalId == animals.AnimalId).FirstOrDefault();
-                        if(room.RoomNumber != null)
-                        {
-                            UserInterface.DisplayUserOptions("That room is already in use.");
-                        }
-                        else
-                        {
-                            room.RoomNumber = int.Parse(criteria.Value);
-                        }
-                        
-                        break;
-
                     case 9:
                         animals.DietPlanId = int.Parse(criteria.Value);
                         break;
@@ -546,6 +539,41 @@ namespace HumaneSociety
             {
                 db.SubmitChanges();
                 UserInterface.DisplayUserOptions("This animal was put in room " + room.RoomNumber);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+        }
+
+        internal static void MoveAnimal(Animal animal)
+        {
+            UserInterface.DisplayUserOptions("What room would you like to move the animal to?");
+            int newRoom = UserInterface.GetIntegerData();
+
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            Room room = new Room();
+            room = db.Rooms.Where(r => r.RoomNumber == newRoom).FirstOrDefault();
+            if (room.AnimalId == null)
+            {
+                Room changeRoom = new Room();
+                changeRoom = db.Rooms.Where(r => r.AnimalId == animal.AnimalId).FirstOrDefault();
+                if (changeRoom != null)
+                {
+                    changeRoom.AnimalId = null;
+                }
+                room.AnimalId = animal.AnimalId;
+            }
+            else
+            {
+                UserInterface.DisplayUserOptions("That room is already in use.");
+                MoveAnimal(animal);
+            }
+
+            try
+            {
+                db.SubmitChanges();
+                UserInterface.DisplayUserOptions("Animal has been moved.");
             }
             catch (Exception e)
             {

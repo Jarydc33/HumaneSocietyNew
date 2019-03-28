@@ -175,7 +175,7 @@ namespace HumaneSociety
             while (isSearching)
             {
                 Console.Clear();
-                List<string> options = new List<string>() { "Select Search Criteia: (Enter number and choose finished when finished)", "1. Category", "2. Name", "3. Age", "4. Demeanor", "5. Kid friendly", "6. Pet friendly", "7. Weight", "8. ID", "9. Finished" };
+                List<string> options = new List<string>() { "Select Search Criteia: (Enter number and choose finished when finished)", "1. Category", "2. Name", "3. Age", "4. Demeanor", "5. Kid friendly", "6. Pet friendly", "7. Weight", "8. Id", "9. Finished" };
                 DisplayUserOptions(options);
                 string input = GetUserInput();
                 if (input.ToLower() == "9" || input.ToLower() == "finished")
@@ -217,10 +217,7 @@ namespace HumaneSociety
                     searchParameters.Add(7, UserInterface.GetIntegerData("weight", "the animal's").ToString());
                     break;
                 case "8":
-                    searchParameters.Add(8, UserInterface.GetIntegerData("room", "the animal's").ToString());
-                    break;
-                case "9":
-                    searchParameters.Add(9, UserInterface.GetIntegerData("DietPlanId", "the animal's").ToString());
+                    searchParameters.Add(8, UserInterface.GetIntegerData("Id", "the animal's").ToString());
                     break;
                 default:
                     UserInterface.DisplayUserOptions("Input not recognized please try agian");
