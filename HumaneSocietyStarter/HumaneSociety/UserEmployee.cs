@@ -181,15 +181,14 @@ namespace HumaneSociety
             }
             else
             {
-                Console.WriteLine("There are no shots available for " + animal + ".");
+                Console.WriteLine("There are no shots available for this animal.");
             }
             if (UserInterface.GetBitData("Would you like to Update shots?"))
             {
                 Console.WriteLine("Which shot does your animal need?");
                 string userInput = Console.ReadLine();
                 Query.UpdateShot(userInput, animal);
-                Console.WriteLine("shots for " + animal + " have been updated. Their shot info is displayed below.");
-                UserInterface.DisplayUserOptions(shotInfo);
+                Console.WriteLine("shots have been updated.");
                 Console.WriteLine("Press enter to return to menu.");
                 Console.ReadLine();
             }

@@ -370,7 +370,7 @@ namespace HumaneSociety
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
             var shotsFromDb = db.AnimalShots.ToList();
             return shotsFromDb;
-
+        
            
         }
 
@@ -396,6 +396,10 @@ namespace HumaneSociety
             AnimalShot animalShot = new AnimalShot();
             animalShot.AnimalId = animal.AnimalId;
             int id = int.Parse(v);
+            if (id == animalShot.ShotId)
+            {
+                throw new Exception("Your animal already has this shot. Please enter another shot ID.");
+            }
             animalShot.ShotId = id;
             animalShot.DateReceived = DateTime.Now;
             
