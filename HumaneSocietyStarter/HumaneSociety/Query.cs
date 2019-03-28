@@ -368,9 +368,10 @@ namespace HumaneSociety
         internal static List<AnimalShot> GetShots(Animal animal) 
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
-            var shotsFromDb = db.AnimalShots.ToList();
+            var shotsFromDb = db.AnimalShots.Where(a => a.AnimalId == animal.AnimalId).ToList();
+            
             return shotsFromDb;
-
+        
            
         }
 
@@ -390,24 +391,47 @@ namespace HumaneSociety
             }
         }
 
-        internal static void UpdateShot(string v, Animal animal)
+        internal static void UpdateShot(int v, Animal animal)
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
-            AnimalShot animalShot = new AnimalShot();
-            animalShot.AnimalId = animal.AnimalId;
-            int id = int.Parse(v);
-            animalShot.ShotId = id;
-            animalShot.DateReceived = DateTime.Now;
+            AnimalShot animalShots = new AnimalShot();
+            AnimalShot checkShots = new AnimalShot();
             
-            db.AnimalShots.InsertOnSubmit(animalShot);
-            try
+            animalShots = db.AnimalShots.Where(a => a.AnimalId == animal.AnimalId && a.ShotId == v).FirstOrDefault();
+            checkShots = db.AnimalShots.Where(a => a.ShotId == v).FirstOrDefault();
+            if (checkShots == null)
             {
-                db.SubmitChanges();
+                UserInterface.DisplayUserOptions("This shot does not exist. Press any key to continue.");
+                Console.ReadLine();
+                return;
             }
-            catch(Exception e)
+            if (animalShots == null)
             {
-                Console.WriteLine(e);
+                AnimalShot animalShot = new AnimalShot();
+                animalShot.ShotId = v;
+                animalShot.DateReceived = DateTime.Now;
+                animalShot.AnimalId = animal.AnimalId;
+                db.AnimalShots.InsertOnSubmit(animalShot);
+                try
+                {
+                    db.SubmitChanges();
+                    Console.WriteLine("shots have been updated.");
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                }
+
+
             }
+            else
+            {
+                UserInterface.DisplayUserOptions("Animal already has this shot, press any key to continue.");
+                Console.ReadLine();
+                
+            }
+            
+            
             
         }
 
