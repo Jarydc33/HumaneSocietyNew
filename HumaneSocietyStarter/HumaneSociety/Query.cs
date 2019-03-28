@@ -566,7 +566,7 @@ namespace HumaneSociety
             UserInterface.DisplayUserOptions("That animal does not exist in the database, would you like to add it?");
             string input = UserInterface.GetUserInput();
 
-            if (input == "yes" || input == "y")
+            if (input.ToLower() == "yes" || input.ToLower() == "y")
             {
                 Category newcategory = new Category();
                 newcategory.Name = type;
