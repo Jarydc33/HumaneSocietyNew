@@ -152,7 +152,7 @@ namespace HumaneSociety
                     break;
 
                 case "update":
-                    Employee newEmployee = db.Employees.Where(e => e.EmployeeId == employee.EmployeeId).FirstOrDefault();
+                    Employee newEmployee = db.Employees.Where(e => e.EmployeeNumber == employee.EmployeeNumber).FirstOrDefault();
                     newEmployee.FirstName = employee.FirstName;
                     newEmployee.LastName = employee.LastName;
                     newEmployee.EmployeeNumber = employee.EmployeeNumber;
