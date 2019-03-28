@@ -534,6 +534,8 @@ namespace HumaneSociety
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
             Room room = new Room();
             Adoption adoption = new Adoption();
+            AnimalShot animalshot = new AnimalShot();
+            animalshot = db.AnimalShots.Where(s => s.AnimalId == animal.AnimalId).FirstOrDefault();
             adoption = db.Adoptions.Where(a => a.AnimalId == animal.AnimalId).FirstOrDefault();
             animal = db.Animals.Where(a => a.AnimalId == animal.AnimalId).FirstOrDefault();
             room = db.Rooms.Where(r => r.AnimalId == animal.AnimalId).FirstOrDefault();
@@ -545,6 +547,10 @@ namespace HumaneSociety
             if(adoption != null)
             {
                 db.Adoptions.DeleteOnSubmit(adoption);
+            }
+            if(animalshot != null)
+            {
+                db.AnimalShots.DeleteOnSubmit(animalshot);
             }
 
             db.Animals.DeleteOnSubmit(animal);
