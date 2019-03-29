@@ -511,6 +511,19 @@ namespace HumaneSociety
             }
         }
 
+        internal static bool CheckIfEmptyRoom()
+        {
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            Room room = new Room();
+
+            room = db.Rooms.Where(r => r.AnimalId == null).FirstOrDefault();
+            if (room == null)
+            {
+                return false;
+            }
+            return true;
+        }
+
         internal static void MoveAnimal(Animal animal, int newRoomNumber)
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();

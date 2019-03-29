@@ -281,8 +281,17 @@ namespace HumaneSociety
         {
             Console.Clear();
             Animal animal = CreateAnimal();
-            Query.AddAnimal(animal);
-            Query.PlaceAnimalIntoRoom(animal.AnimalId);
+            if (Query.CheckIfEmptyRoom())
+            {
+                Query.AddAnimal(animal);
+                Query.PlaceAnimalIntoRoom(animal.AnimalId);
+            }
+            else
+            {
+                UserInterface.DisplayUserOptions("There are no open rooms at this time. The animal has not been admitted. Press any key to continue.");
+                Console.ReadLine();
+            }
+            
         }
 
         private Animal CreateAnimal()
