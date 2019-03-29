@@ -31,6 +31,7 @@ namespace HumaneSociety
             string input = UserInterface.GetUserInput();
             RunUserInput(input);
         }
+
         private void RunUserInput(string input)
         {
             switch (input)
@@ -161,7 +162,10 @@ namespace HumaneSociety
                     Console.Clear();
                     break;
                 case 4:
-                    Query.MoveAnimal(animal);
+                    UserInterface.DisplayUserOptions("What room would you like to move the animal to?");
+                    int newRoom = UserInterface.GetIntegerData();
+                    Query.MoveAnimal(animal, newRoom);
+
                     break;
                 case 5:
                     Query.ChangeAnimalDiet(animal);

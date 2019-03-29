@@ -409,7 +409,6 @@ namespace HumaneSociety
             {
                 UserInterface.DisplayUserOptions("Animal already has this shot, press any key to continue.");
                 Console.ReadLine();
-                
             }
         }
 
@@ -512,22 +511,19 @@ namespace HumaneSociety
             }
         }
 
-        internal static void MoveAnimal(Animal animal)
+        internal static void MoveAnimal(Animal animal, int newRoomNumber)
         {
-            UserInterface.DisplayUserOptions("What room would you like to move the animal to?");
-            int newRoom = UserInterface.GetIntegerData();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            Room room = new Room();
+            room = db.Rooms.Where(r => r.RoomNumber == newRoomNumber).FirstOrDefault();
 
-            if(newRoom > 30 || newRoom < 25)
+            if (room == null)
             {
                 UserInterface.DisplayUserOptions("That room does not exist. Press any key to continue.");
                 Console.ReadLine();
                 return;
             }
-
-            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
-            Room room = new Room();
-            room = db.Rooms.Where(r => r.RoomNumber == newRoom).FirstOrDefault();
-            if (room.AnimalId == null)
+            else if (room.AnimalId == null && room.RoomNumber != null)
             {
                 Room changeRoom = new Room();
                 changeRoom = db.Rooms.Where(r => r.AnimalId == animal.AnimalId).FirstOrDefault();
@@ -539,8 +535,9 @@ namespace HumaneSociety
             }
             else
             {
-                UserInterface.DisplayUserOptions("That room is already in use.");
-                MoveAnimal(animal);
+                UserInterface.DisplayUserOptions("That room is already in use. Press any key to continue.");
+                Console.ReadLine();
+                return;
             }
 
             try
