@@ -91,7 +91,7 @@ namespace HumaneSociety
         {
             UserInterface.DisplayAnimalInfo(adoption.Animal);
             UserInterface.DisplayClientInfo(adoption.Client);
-            UserInterface.DisplayUserOptions("Would you approve this adoption?");
+            UserInterface.DisplayUserOptions("Do you want to approve this adoption?");
             if ((bool)UserInterface.GetBitData())
             {
                 Query.UpdateAdoption(true, adoption);
@@ -187,7 +187,7 @@ namespace HumaneSociety
             }
             else
             {
-                Console.WriteLine("There are no shots available for this animal.");
+                UserInterface.DisplayUserOptions("There are no shots available for this animal.");
             }
             if (UserInterface.GetBitData("Would you like to Update shots?"))
             {
@@ -195,8 +195,8 @@ namespace HumaneSociety
                 int userInput = UserInterface.GetIntegerData();
                
                 Query.UpdateShot(userInput, animal);
-                
-                Console.WriteLine("Press enter to return to menu.");
+
+                UserInterface.DisplayUserOptions("Press enter to return to menu.");
                 Console.ReadLine();
             }
         }
@@ -272,6 +272,7 @@ namespace HumaneSociety
                 Console.ReadLine();
             }
         }
+
         public void AddAnimal()
         {
             Console.Clear();
@@ -336,25 +337,21 @@ namespace HumaneSociety
 
         protected override void LogInPreExistingUser()
         {
-            List<string> options = new List<string>() { "Please log in", "Enter your username (CaSe SeNsItIvE)" };
+            List<string> options = new List<string>() { "Please log in", "Enter your username" };
             UserInterface.DisplayUserOptions(options);
             userName = UserInterface.GetUserInput();
-            UserInterface.DisplayUserOptions("Enter your password (CaSe SeNsItIvE)");
+            UserInterface.DisplayUserOptions("Enter your password: ");
             string password = UserInterface.GetUserInput();
-            try
+            Console.Clear();
+            employee = Query.EmployeeLogin(userName, password);
+            if (employee == null)
             {
-                Console.Clear();
-                employee = Query.EmployeeLogin(userName, password);
-                UserInterface.DisplayUserOptions("Login successfull. Welcome.");
-            }
-            catch
-            {
-                Console.Clear();
-                UserInterface.DisplayUserOptions("Employee not found, please try again, create a new user or contact your administrator");
+                UserInterface.DisplayUserOptions("Wrong username or password. Please try again, create a new user, or contact your administrator.");
                 LogIn();
             }
-            
+            UserInterface.DisplayUserOptions("Login successfull. Welcome.");
         }
+
         private void CreateNewEmployee()
 
         {

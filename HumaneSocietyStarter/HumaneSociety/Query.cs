@@ -140,18 +140,18 @@ namespace HumaneSociety
                     break;
 
                 case "update":
-                    Employee newEmployee = db.Employees.Where(e => e.EmployeeNumber == employee.EmployeeNumber).FirstOrDefault();
-                    newEmployee.FirstName = employee.FirstName;
-                    newEmployee.LastName = employee.LastName;
-                    newEmployee.EmployeeNumber = employee.EmployeeNumber;
-                    newEmployee.Email = employee.Email;
+                    Employee updatedEmployee = db.Employees.Where(e => e.EmployeeNumber == employee.EmployeeNumber).FirstOrDefault();
+                    updatedEmployee.FirstName = employee.FirstName;
+                    updatedEmployee.LastName = employee.LastName;
+                    updatedEmployee.EmployeeNumber = employee.EmployeeNumber;
+                    updatedEmployee.Email = employee.Email;
 
                     break;
 
                 case "create":
-                    Employee testEmployee = new Employee();
-                    testEmployee = db.Employees.Where(e => e.EmployeeNumber == employee.EmployeeNumber).FirstOrDefault();
-                    if(testEmployee == null)
+                    Employee newEmployee = new Employee();
+                    newEmployee = db.Employees.Where(e => e.EmployeeNumber == employee.EmployeeNumber).FirstOrDefault();
+                    if(newEmployee == null)
                     {
                         
                         db.Employees.InsertOnSubmit(employee);
@@ -160,7 +160,7 @@ namespace HumaneSociety
                     }
                     else
                     {
-                        Console.WriteLine("That employee number is already in use, press any key to go back to the main menu.");
+                        UserInterface.DisplayUserOptions("That employee number is already in use, press any key to go back to the main menu.");
                         Console.ReadLine();
                     }
                     break;
@@ -334,7 +334,7 @@ namespace HumaneSociety
 
             if (employeeFromDb == null)
             {
-                throw new NullReferenceException("Sorry, we dont recognize that");           
+                throw new NullReferenceException("Sorry, we don`t recognize that");           
             }
             else
             {
