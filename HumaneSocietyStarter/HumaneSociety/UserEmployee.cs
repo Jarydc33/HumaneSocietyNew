@@ -323,14 +323,14 @@ namespace HumaneSociety
         private void CreateDiet()
         {
             DietPlan Diet = new DietPlan();
-            Diet.Name = UserInterface.GetStringData("name?", "the diet's");
-            Diet.FoodType = UserInterface.GetStringData("food type?", "the animal's");
-            Console.WriteLine("How much food does the animal need per serving?");
+            Diet.Name = UserInterface.GetStringData("name", "the diet's");
+            Diet.FoodType = UserInterface.GetStringData("food type", "the animal's");
+            UserInterface.DisplayUserOptions("How much food does the animal need per serving?");
             int foodinCups = UserInterface.GetIntegerData();
             Diet.FoodAmountInCups = foodinCups;
             Query.AddDiet(Diet);
-            Console.WriteLine("You have added a new dietplan. The name of the diet plan is " + Diet.Name + ". The food type is " + Diet.FoodType + ". " + Diet.FoodAmountInCups + " cups per serving is the recommended amount.");
-            Console.WriteLine("Press enter if this looks correct.");
+            UserInterface.DisplayUserOptions("You have added a new dietplan. The name of the diet plan is " + Diet.Name + ". The food type is " + Diet.FoodType + ". " + Diet.FoodAmountInCups + " cups per serving is the recommended amount.");
+            UserInterface.DisplayUserOptions("Press enter to continue.");
             Console.ReadLine();
         }
 
