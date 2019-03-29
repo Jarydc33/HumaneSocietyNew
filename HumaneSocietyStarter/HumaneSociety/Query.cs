@@ -719,6 +719,13 @@ namespace HumaneSociety
 
             diet = db.DietPlans.Where(d => d.DietPlanId == dietId).FirstOrDefault();
 
+            if(diet == null)
+            {
+                UserInterface.DisplayUserOptions("That DietId does not exist. Press any button to continue.");
+                Console.ReadLine();
+                return;
+            }
+
             diet.Name = UserInterface.GetStringData("name?", "the updated diet`s");
             diet.FoodType = UserInterface.GetStringData("food type?", "the updated diet`s");
             diet.FoodAmountInCups = UserInterface.GetIntegerData("serving amount?", "the updated diet`s");

@@ -52,7 +52,7 @@ namespace HumaneSociety
                     RunUserMenus();
                     break;
                 case "5":
-                    AddDiet();
+                    DietDecision();
                     RunUserMenus();
                     break;
                 default:
@@ -280,7 +280,7 @@ namespace HumaneSociety
             Query.PlaceAnimalIntoRoom(animal.AnimalId);
         }
 
-        public Animal CreateAnimal()
+        private Animal CreateAnimal()
         {
             Animal animal = new Animal();
             string type = UserInterface.GetStringData("species", "the animal`s");
@@ -298,31 +298,41 @@ namespace HumaneSociety
             return animal;
         }
 
-        private void AddDiet()
+        private void DietDecision()
         {
             UserInterface.DisplayUserOptions("Would you like to update a diet plan or create a new one? Type update or create.");
             string decisions = UserInterface.GetUserInput();
             if(decisions.ToLower() == "update")
             {
-                UserInterface.DisplayUserOptions("What is the Diet Id you would like to edit?");
-                int dietId = UserInterface.GetIntegerData();
-                Query.UpdateDiet(dietId);
+                UpdateDiet();
             }
             if(decisions.ToLower() == "create")
             {
-                DietPlan Diet = new DietPlan();
-                Diet.Name = UserInterface.GetStringData("name?", "the diet's");
-                Diet.FoodType = UserInterface.GetStringData("food type?", "the animal's");
-                Console.WriteLine("How much food does the animal need per serving?");
-                int foodinCups = UserInterface.GetIntegerData();
-                Diet.FoodAmountInCups = foodinCups;
-                Query.AddDiet(Diet);
-                Console.WriteLine("You have added a new dietplan. The name of the diet plan is " + Diet.Name + ". The food type is " + Diet.FoodType + ". " + Diet.FoodAmountInCups + " cups per serving is the recommended amount.");
-                Console.WriteLine("Press enter if this looks correct.");
-                Console.ReadLine();
+                CreateDiet();
             }
             
-        }               
+        }    
+        
+        private void UpdateDiet()
+        {
+            UserInterface.DisplayUserOptions("What is the Diet Id you would like to edit?");
+            int dietId = UserInterface.GetIntegerData();
+            Query.UpdateDiet(dietId);
+        }
+
+        private void CreateDiet()
+        {
+            DietPlan Diet = new DietPlan();
+            Diet.Name = UserInterface.GetStringData("name?", "the diet's");
+            Diet.FoodType = UserInterface.GetStringData("food type?", "the animal's");
+            Console.WriteLine("How much food does the animal need per serving?");
+            int foodinCups = UserInterface.GetIntegerData();
+            Diet.FoodAmountInCups = foodinCups;
+            Query.AddDiet(Diet);
+            Console.WriteLine("You have added a new dietplan. The name of the diet plan is " + Diet.Name + ". The food type is " + Diet.FoodType + ". " + Diet.FoodAmountInCups + " cups per serving is the recommended amount.");
+            Console.WriteLine("Press enter if this looks correct.");
+            Console.ReadLine();
+        }
 
         protected override void LogInPreExistingUser()
         {
