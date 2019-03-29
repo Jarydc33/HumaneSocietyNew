@@ -275,8 +275,15 @@ namespace HumaneSociety
         public void AddAnimal()
         {
             Console.Clear();
+            Animal animal = CreateAnimal();
+            Query.AddAnimal(animal);
+            Query.PlaceAnimalIntoRoom(animal.AnimalId);
+        }
+
+        public Animal CreateAnimal()
+        {
             Animal animal = new Animal();
-            string type = UserInterface.GetStringData("species","the animal`s");
+            string type = UserInterface.GetStringData("species", "the animal`s");
             animal.CategoryId = Query.GetCategoryId(type);
             if (animal.CategoryId == null) { RunUserMenus(); }
             animal.Name = UserInterface.GetStringData("name", "the animal's");
@@ -288,8 +295,7 @@ namespace HumaneSociety
             animal.Gender = UserInterface.GetStringData("gender", "the animal's");
             animal.AdoptionStatus = UserInterface.GetStringData("adoption status", "the animal's");
             animal.DietPlanId = Query.GetDietPlanId(type);
-            Query.AddAnimal(animal);
-            Query.PlaceAnimalIntoRoom(animal.AnimalId);
+            return animal;
         }
 
         private void AddDiet()
