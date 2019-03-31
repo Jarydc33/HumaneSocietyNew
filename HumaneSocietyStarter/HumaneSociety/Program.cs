@@ -14,7 +14,7 @@ namespace HumaneSociety
             //ue.UpdateAnimal();
             //ue.UpdateAnimal();
             UserEmployee ue = new UserEmployee();
-            ue.ReadCSVFile();
+            ue.AddCSVFile();
 
             PointOfEntry.Run();
         }

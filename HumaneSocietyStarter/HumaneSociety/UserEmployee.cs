@@ -296,7 +296,7 @@ namespace HumaneSociety
             
         }
 
-        public void ReadCSVFile()
+        public void AddCSVFile()
         {
             using (TextFieldParser parser = new TextFieldParser(@"C:\\Users\\Jaryd\\Desktop\\HumaneSocietyNew\\HumaneSocietyNew\\HumaneSocietyStarter\\animals.csv"))
             {
@@ -308,10 +308,20 @@ namespace HumaneSociety
 
                     Animal animalToAdd = new Animal();
                     animalToAdd.Name = animalTrait[0].Trim('"');
-                    int? intParseValue = UserInterface.GetCsvIntData(animalTrait[1]);
-                    animalToAdd.CategoryId = intParseValue;
-                    intParseValue = UserInterface.GetCsvIntData(animalTrait[2]);
+                    int? intParseValue = UserInterface.GetCsvIntData(animalTrait[2]);
                     animalToAdd.Weight = intParseValue;
+                    string testedInput = UserInterface.CsvNullChecker(animalTrait[1]);
+                    while (testedInput == null)
+                    {
+                        UserInterface.DisplayUserOptions("Please enter the animal`s species: ");
+                        string input = Console.ReadLine();
+                        intParseValue = Query.GetCategoryId(input);
+                        if(intParseValue != null)
+                        {
+                            testedInput = "Not null";
+                        }
+                    }
+                    animalToAdd.CategoryId = intParseValue;
                     intParseValue = UserInterface.GetCsvIntData(animalTrait[3]);
                     animalToAdd.Age = intParseValue;
                     intParseValue = UserInterface.GetCsvIntData(animalTrait[4]);
@@ -325,50 +335,21 @@ namespace HumaneSociety
                     animalToAdd.AdoptionStatus = animalTrait[9].Trim('"');
                     intParseValue = UserInterface.GetCsvIntData(animalTrait[10]);
                     animalToAdd.EmployeeId = intParseValue;
-                    Query.AddAnimal(animalToAdd);
+
+                    if (Query.CheckIfEmptyRoom())
+                    {
+                        Query.AddAnimal(animalToAdd);
+                        Query.PlaceAnimalIntoRoom(animalToAdd.AnimalId);
+                    }
+                    else
+                    {
+                        UserInterface.DisplayUserOptions("There are no open rooms at this time. The animal has not been admitted. Press any key to continue.");
+                        Console.ReadLine();
+                        break;
+                    }
                 }
             }
         }
-
-        //public void GetFile()
-        //{
-        //    try
-        //    {
-        //        string fileName = "C:\\Users\\Jaryd\\Desktop\\HumaneSocietyNew\\HumaneSocietyNew\\HumaneSocietyStarter\\animals.csv";
-        //        var engine = new FileHelperEngine(typeof(Importer));
-        //        var animals = (Importer[])engine.ReadFile(fileName);
-
-        //        if (animals.Any())
-        //        {
-        //            foreach (var animalTrait in animals)
-        //            {
-        //                Animal animalToAdd = new Animal();
-        //                animalToAdd.Name = animalTrait.Name;
-        //                int intParseValue = int.Parse(animalTrait.CategoryId);
-        //                animalToAdd.CategoryId = intParseValue;
-        //                intParseValue = int.Parse(animalTrait.Weight);
-        //                animalToAdd.Weight = intParseValue;
-        //                intParseValue = int.Parse(animalTrait.DietPlanId);
-        //                animalToAdd.DietPlanId = intParseValue;
-        //                animalToAdd.Demeanor = animalTrait.Demeanor;
-        //                bool newFriendlyStatus = bool.Parse(animalTrait.KidFriendly);
-        //                animalToAdd.KidFriendly = newFriendlyStatus;
-        //                newFriendlyStatus = bool.Parse(animalTrait.PetFriendly);
-        //                animalToAdd.PetFriendly = newFriendlyStatus;
-        //                animalToAdd.Gender = animalTrait.Gender;
-        //                animalToAdd.AdoptionStatus = animalTrait.AdoptionStatus;
-        //                intParseValue = int.Parse(animalTrait.EmployeeId);
-        //                animalToAdd.EmployeeId = intParseValue;
-        //                Query.AddAnimal(animalToAdd);
-        //            }
-        //        }
-
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        Console.WriteLine(e);
-        //    }
-        //}
 
         private Animal CreateAnimal()
         {

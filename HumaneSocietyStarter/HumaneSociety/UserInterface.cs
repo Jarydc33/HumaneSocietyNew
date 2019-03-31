@@ -125,6 +125,18 @@ namespace HumaneSociety
             }
         }
 
+        internal static string CsvNullChecker(string toTest)
+        {
+            if(toTest.ToLower() == "null")
+            {
+                return null;
+            }
+            else
+            {
+                return toTest;
+            }
+        }
+
         internal static bool? GetCsvBoolData(string toTest)
         {            
             if(toTest == "1")
