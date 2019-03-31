@@ -569,8 +569,8 @@ namespace HumaneSociety
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
             Room room = new Room();
             Adoption adoption = new Adoption();
-            List<AnimalShot> animalshot = new List<AnimalShot>();
-            animalshot = db.AnimalShots.Where(s => s.AnimalId == animal.AnimalId).ToList();
+            List<AnimalShot> animalShot = new List<AnimalShot>();
+            animalShot = db.AnimalShots.Where(s => s.AnimalId == animal.AnimalId).ToList();
             adoption = db.Adoptions.Where(a => a.AnimalId == animal.AnimalId).FirstOrDefault();
             animal = db.Animals.Where(a => a.AnimalId == animal.AnimalId).FirstOrDefault();
             room = db.Rooms.Where(r => r.AnimalId == animal.AnimalId).FirstOrDefault();
@@ -583,9 +583,9 @@ namespace HumaneSociety
             {
                 db.Adoptions.DeleteOnSubmit(adoption);
             }
-            if(animalshot != null)
+            if(animalShot != null)
             {
-                foreach(AnimalShot shot in animalshot)
+                foreach(AnimalShot shot in animalShot)
                 {
                     db.AnimalShots.DeleteOnSubmit(shot);
                 }
@@ -610,8 +610,8 @@ namespace HumaneSociety
 
             if(category == 0)
             {
-                int? newcategory = CreateCategoryId(type);
-                return newcategory;
+                int? newCategory = CreateCategoryId(type);
+                return newCategory;
             }
             return category;
         }
@@ -625,9 +625,9 @@ namespace HumaneSociety
 
             if (input.ToLower() == "yes" || input.ToLower() == "y")
             {
-                Category newcategory = new Category();
-                newcategory.Name = type;
-                db.Categories.InsertOnSubmit(newcategory);
+                Category NewCategory = new Category();
+                NewCategory.Name = type;
+                db.Categories.InsertOnSubmit(NewCategory);
 
                 try
                 {
@@ -637,7 +637,7 @@ namespace HumaneSociety
                 {
                     Console.WriteLine(e);
                 }
-                return newcategory.CategoryId;
+                return NewCategory.CategoryId;
             }
             UserInterface.DisplayUserOptions("The animal needs a category to be added into the database. Press any key to return.");
             Console.ReadLine();

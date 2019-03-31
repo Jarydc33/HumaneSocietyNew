@@ -112,6 +112,35 @@ namespace HumaneSociety
             }
         }
 
+        internal static int? GetCsvIntData(string toTest)
+        {
+            if(toTest.ToLower() == "null")
+            {
+                return null;
+            }
+            else
+            {
+                int value = int.Parse(toTest);
+                return value;
+            }
+        }
+
+        internal static bool? GetCsvBoolData(string toTest)
+        {            
+            if(toTest == "1")
+            {
+                return true;
+            }
+            else if(toTest == "0")
+            {
+                return false;
+            }
+           else
+            {
+                return null;
+            }
+        }
+
         public static int GetIntegerData(string parameter, string target)
         {
             try

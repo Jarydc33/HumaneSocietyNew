@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.VisualBasic.FileIO;
+using FileHelpers;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -293,6 +295,80 @@ namespace HumaneSociety
             }
             
         }
+
+        public void ReadCSVFile()
+        {
+            using (TextFieldParser parser = new TextFieldParser(@"C:\\Users\\Jaryd\\Desktop\\HumaneSocietyNew\\HumaneSocietyNew\\HumaneSocietyStarter\\animals.csv"))
+            {
+                parser.TextFieldType = FieldType.Delimited;
+                parser.SetDelimiters(",");
+                while (!parser.EndOfData)
+                {
+                    string[] animalTrait = parser.ReadFields();
+
+                    Animal animalToAdd = new Animal();
+                    animalToAdd.Name = animalTrait[0].Trim('"');
+                    int? intParseValue = UserInterface.GetCsvIntData(animalTrait[1]);
+                    animalToAdd.CategoryId = intParseValue;
+                    intParseValue = UserInterface.GetCsvIntData(animalTrait[2]);
+                    animalToAdd.Weight = intParseValue;
+                    intParseValue = UserInterface.GetCsvIntData(animalTrait[3]);
+                    animalToAdd.Age = intParseValue;
+                    intParseValue = UserInterface.GetCsvIntData(animalTrait[4]);
+                    animalToAdd.DietPlanId = intParseValue;
+                    animalToAdd.Demeanor = animalTrait[5].Trim('"');
+                    bool? newFriendlyStatus = UserInterface.GetCsvBoolData(animalTrait[6]);
+                    animalToAdd.KidFriendly = newFriendlyStatus;
+                    newFriendlyStatus = UserInterface.GetCsvBoolData(animalTrait[7]);
+                    animalToAdd.PetFriendly = newFriendlyStatus;
+                    animalToAdd.Gender = animalTrait[8];
+                    animalToAdd.AdoptionStatus = animalTrait[9].Trim('"');
+                    intParseValue = UserInterface.GetCsvIntData(animalTrait[10]);
+                    animalToAdd.EmployeeId = intParseValue;
+                    Query.AddAnimal(animalToAdd);
+                }
+            }
+        }
+
+        //public void GetFile()
+        //{
+        //    try
+        //    {
+        //        string fileName = "C:\\Users\\Jaryd\\Desktop\\HumaneSocietyNew\\HumaneSocietyNew\\HumaneSocietyStarter\\animals.csv";
+        //        var engine = new FileHelperEngine(typeof(Importer));
+        //        var animals = (Importer[])engine.ReadFile(fileName);
+
+        //        if (animals.Any())
+        //        {
+        //            foreach (var animalTrait in animals)
+        //            {
+        //                Animal animalToAdd = new Animal();
+        //                animalToAdd.Name = animalTrait.Name;
+        //                int intParseValue = int.Parse(animalTrait.CategoryId);
+        //                animalToAdd.CategoryId = intParseValue;
+        //                intParseValue = int.Parse(animalTrait.Weight);
+        //                animalToAdd.Weight = intParseValue;
+        //                intParseValue = int.Parse(animalTrait.DietPlanId);
+        //                animalToAdd.DietPlanId = intParseValue;
+        //                animalToAdd.Demeanor = animalTrait.Demeanor;
+        //                bool newFriendlyStatus = bool.Parse(animalTrait.KidFriendly);
+        //                animalToAdd.KidFriendly = newFriendlyStatus;
+        //                newFriendlyStatus = bool.Parse(animalTrait.PetFriendly);
+        //                animalToAdd.PetFriendly = newFriendlyStatus;
+        //                animalToAdd.Gender = animalTrait.Gender;
+        //                animalToAdd.AdoptionStatus = animalTrait.AdoptionStatus;
+        //                intParseValue = int.Parse(animalTrait.EmployeeId);
+        //                animalToAdd.EmployeeId = intParseValue;
+        //                Query.AddAnimal(animalToAdd);
+        //            }
+        //        }
+
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        Console.WriteLine(e);
+        //    }
+        //}
 
         private Animal CreateAnimal()
         {
