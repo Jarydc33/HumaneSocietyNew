@@ -28,7 +28,7 @@ namespace HumaneSociety
         }
         protected override void RunUserMenus()
         {
-            List<string> options = new List<string>() { "What would you like to do? (select number of choice)", "1. Add animal", "2. Remove Anmial", "3. Check Animal Status",  "4. Approve Adoption", "5. Create New / Edit Existing Diet Plan" };
+            List<string> options = new List<string>() { "What would you like to do? (select number of choice)", "1. Add animal", "2. Remove Anmial", "3. Check Animal Status",  "4. Approve Adoption", "5. Create New / Edit Existing Diet Plan", "6. Upload a CSV file" };
             UserInterface.DisplayUserOptions(options);
             string input = UserInterface.GetUserInput();
             RunUserInput(input);
@@ -57,6 +57,11 @@ namespace HumaneSociety
                 case "5":
                     DietDecision();
                     RunUserMenus();
+                    break;
+                case "6":
+                    UserInterface.DisplayUserOptions("Please enter the location of the file: ");
+                    string location = Console.ReadLine();
+                    AddCSVFile(location);
                     break;
                 default:
                     UserInterface.DisplayUserOptions("Input not accepted please try again");
@@ -296,58 +301,69 @@ namespace HumaneSociety
             
         }
 
-        public void AddCSVFile()
+        public void AddCSVFile(string fileName)
         {
-            using (TextFieldParser parser = new TextFieldParser(@"C:\\Users\\Jaryd\\Desktop\\HumaneSocietyNew\\HumaneSocietyNew\\HumaneSocietyStarter\\animals.csv"))
+            try
             {
-                parser.TextFieldType = FieldType.Delimited;
-                parser.SetDelimiters(",");
-                while (!parser.EndOfData)
+                using (TextFieldParser parser = new TextFieldParser(@fileName))
                 {
-                    string[] animalTrait = parser.ReadFields();
+                    parser.TextFieldType = FieldType.Delimited;
+                    parser.SetDelimiters(",");
 
-                    Animal animalToAdd = new Animal();
-                    animalToAdd.Name = animalTrait[0].Trim('"');
-                    int? intParseValue = UserInterface.GetCsvIntData(animalTrait[2]);
-                    animalToAdd.Weight = intParseValue;
-                    string testedInput = UserInterface.CsvNullChecker(animalTrait[1]);
-                    while (testedInput == null)
+                    while (!parser.EndOfData)
                     {
-                        UserInterface.DisplayUserOptions("Please enter the animal`s species: ");
-                        string input = Console.ReadLine();
-                        intParseValue = Query.GetCategoryId(input);
-                        if(intParseValue != null)
+                        string[] animalTrait = parser.ReadFields();
+
+                        Animal animalToAdd = new Animal();
+                        animalToAdd.Name = animalTrait[0].Trim('"');
+                        int? intParseValue = UserInterface.GetCsvIntData(animalTrait[2]);
+                        animalToAdd.Weight = intParseValue;
+                        string testedInput = UserInterface.CsvNullChecker(animalTrait[1]);
+                        while (testedInput == null)
                         {
-                            testedInput = "Not null";
+                            UserInterface.DisplayUserOptions("Please enter the animal`s species: ");
+                            string input = Console.ReadLine();
+                            intParseValue = Query.GetCategoryId(input);
+                            if (intParseValue != null)
+                            {
+                                testedInput = "Not null";
+                            }
+                        }
+                        animalToAdd.CategoryId = intParseValue;
+                        intParseValue = UserInterface.GetCsvIntData(animalTrait[3]);
+                        animalToAdd.Age = intParseValue;
+                        intParseValue = UserInterface.GetCsvIntData(animalTrait[4]);
+                        animalToAdd.DietPlanId = intParseValue;
+                        animalToAdd.Demeanor = animalTrait[5].Trim('"');
+                        bool? newFriendlyStatus = UserInterface.GetCsvBoolData(animalTrait[6]);
+                        animalToAdd.KidFriendly = newFriendlyStatus;
+                        newFriendlyStatus = UserInterface.GetCsvBoolData(animalTrait[7]);
+                        animalToAdd.PetFriendly = newFriendlyStatus;
+                        animalToAdd.Gender = animalTrait[8];
+                        animalToAdd.AdoptionStatus = animalTrait[9].Trim('"');
+                        intParseValue = UserInterface.GetCsvIntData(animalTrait[10]);
+                        animalToAdd.EmployeeId = intParseValue;
+
+                        if (Query.CheckIfEmptyRoom())
+                        {
+                            Query.AddAnimal(animalToAdd);
+                            Query.PlaceAnimalIntoRoom(animalToAdd.AnimalId);
+                        }
+                        else
+                        {
+                            UserInterface.DisplayUserOptions("There are no open rooms at this time. The animal has not been admitted. Press any key to continue.");
+                            Console.ReadLine();
+                            RunUserMenus();
                         }
                     }
-                    animalToAdd.CategoryId = intParseValue;
-                    intParseValue = UserInterface.GetCsvIntData(animalTrait[3]);
-                    animalToAdd.Age = intParseValue;
-                    intParseValue = UserInterface.GetCsvIntData(animalTrait[4]);
-                    animalToAdd.DietPlanId = intParseValue;
-                    animalToAdd.Demeanor = animalTrait[5].Trim('"');
-                    bool? newFriendlyStatus = UserInterface.GetCsvBoolData(animalTrait[6]);
-                    animalToAdd.KidFriendly = newFriendlyStatus;
-                    newFriendlyStatus = UserInterface.GetCsvBoolData(animalTrait[7]);
-                    animalToAdd.PetFriendly = newFriendlyStatus;
-                    animalToAdd.Gender = animalTrait[8];
-                    animalToAdd.AdoptionStatus = animalTrait[9].Trim('"');
-                    intParseValue = UserInterface.GetCsvIntData(animalTrait[10]);
-                    animalToAdd.EmployeeId = intParseValue;
-
-                    if (Query.CheckIfEmptyRoom())
-                    {
-                        Query.AddAnimal(animalToAdd);
-                        Query.PlaceAnimalIntoRoom(animalToAdd.AnimalId);
-                    }
-                    else
-                    {
-                        UserInterface.DisplayUserOptions("There are no open rooms at this time. The animal has not been admitted. Press any key to continue.");
-                        Console.ReadLine();
-                        break;
-                    }
+                    RunUserMenus();
                 }
+            }
+            catch
+            {
+                UserInterface.DisplayUserOptions("There is something wrong with the file you are attempting to load or the file does not exist. Please check it and try again. Press any key to continue.");
+                Console.ReadLine();
+                RunUserMenus();
             }
         }
 

@@ -10,12 +10,7 @@ namespace HumaneSociety
     {
         static void Main(string[] args)
         {
-            //UserEmployee ue = new UserEmployee();
-            //ue.UpdateAnimal();
-            //ue.UpdateAnimal();
             UserEmployee ue = new UserEmployee();
-            ue.AddCSVFile();
-
             PointOfEntry.Run();
         }
     }
